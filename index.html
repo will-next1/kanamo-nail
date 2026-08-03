@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nail Salon Kanamo | ネイルサロン カナモ</title>
-  <meta name="description" content="京成八幡駅徒歩1分・本八幡駅徒歩5分。ネイリスト協会認定講師による技術の高い施術と約500デザインから選べる定額メニューをお求めやすい価格にてご提供しております">
+  <meta name="description" content="京成八幡駅徒歩1分・本八幡駅徒歩5分。Nail Salon Kanamoは、約500デザインから選べる定額メニューと完全プライベート空間で、上品なネイル時間をお届けします。">
   <style>
     :root {
       --white: #ffffff;
@@ -216,30 +216,44 @@
       display: none;
       padding: 16px;
       border-radius: 22px;
-      background: rgba(255, 255, 255, 0.97);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 248, 250, 0.80)),
+        url("images/kanamo-gutter-floral-background-v2.jpg") center / cover no-repeat;
       border: 1px solid rgba(200, 155, 67, 0.22);
       box-shadow: var(--shadow);
     }
 
     .menu-open .nav {
       display: grid;
-      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .nav a {
-      min-height: 44px;
+      min-height: 58px;
       display: flex;
       align-items: center;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 0.92rem;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid rgba(200, 155, 67, 0.3);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255, 249, 251, 0.98), rgba(255, 239, 245, 0.96));
+      box-shadow: 0 5px 12px rgba(139, 75, 86, 0.08);
+      font-size: clamp(0.76rem, 3.5vw, 0.92rem);
       font-weight: 800;
+      line-height: 1.35;
+      text-align: center;
       color: var(--brown);
+    }
+
+    .nav a:last-child {
+      grid-column: 1 / -1;
     }
 
     .nav a:hover,
     .nav a:focus-visible {
-      background: var(--pink-bg);
+      background: linear-gradient(135deg, #fbe2eb, #fff5f8);
+      box-shadow: 0 7px 16px rgba(139, 75, 86, 0.14);
       outline: none;
     }
 
@@ -532,7 +546,7 @@
       height: 100%;
       min-height: 260px;
       object-fit: cover;
-      object-position: center;
+      object-position: center 42%;
     }
 
     .hero-visual::after {
@@ -543,6 +557,76 @@
         linear-gradient(90deg, rgba(255, 250, 246, 0.38), transparent 42%),
         linear-gradient(180deg, transparent 58%, rgba(255, 250, 246, 0.46));
       pointer-events: none;
+    }
+
+    .hero-frame-sparkle {
+      position: absolute;
+      inset: 2px;
+      z-index: 3;
+      width: calc(100% - 4px);
+      height: calc(100% - 4px);
+      overflow: visible;
+      pointer-events: none;
+      shape-rendering: geometricPrecision;
+      filter: drop-shadow(0 0 3px rgba(255, 214, 92, 0.9));
+    }
+
+    .hero-frame-sparkle rect {
+      fill: none;
+      opacity: 0;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dashoffset: 100;
+    }
+
+    .hero-frame-sparkle .sparkle-trail {
+      stroke: #f2c75c;
+      stroke-width: 2.2;
+      stroke-dasharray: 13 87;
+    }
+
+    .hero-frame-sparkle .sparkle-head {
+      stroke: #fff8ce;
+      stroke-width: 3.2;
+      stroke-dasharray: 1.8 98.2;
+    }
+
+    .hero-visual.is-sparkling .sparkle-trail {
+      animation: hero-frame-lap 1.6s linear both;
+    }
+
+    .hero-visual.is-sparkling .sparkle-head {
+      animation: hero-frame-head-lap 1.6s linear both;
+    }
+
+    @keyframes hero-frame-lap {
+      0% {
+        opacity: 0;
+        stroke-dashoffset: 100;
+      }
+      8%,
+      88% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes hero-frame-head-lap {
+      0% {
+        opacity: 0;
+        stroke-dashoffset: 100;
+      }
+      5%,
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        stroke-dashoffset: 0;
+      }
     }
 
     .section-head {
@@ -783,6 +867,17 @@
       line-height: 1;
     }
 
+    .reason-icon svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .reason-item h3 {
       color: var(--rose);
       font-size: 0.88rem;
@@ -907,7 +1002,7 @@
     .footer {
       padding: 34px 0;
       text-align: center;
-      background: #fffdf8;
+      background: url("images/kanamo-gutter-floral-background-v2.jpg") center center / cover no-repeat;
       border-top: 1px solid rgba(200, 155, 67, 0.18);
     }
 
@@ -943,6 +1038,32 @@
       margin-top: 10px;
       color: rgba(79, 61, 64, 0.52);
       font-size: 0.78rem;
+    }
+
+    .footer-credit {
+      margin-top: 0;
+      max-width: 100%;
+      color: #9f762f;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .footer-credit a {
+      display: inline-block;
+      max-width: 100%;
+      color: inherit;
+      font-size: clamp(10px, 3vw, 13px);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.5;
+      white-space: nowrap;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .footer-credit a:hover,
+    .footer-credit a:focus-visible {
+      color: var(--rose);
     }
 
     @media (min-width: 640px) {
@@ -1057,6 +1178,18 @@
     }
 
     @media (min-width: 980px) {
+      .cover {
+        background: url("images/kanamo-gutter-floral-background-v2.jpg") center top / cover no-repeat;
+      }
+
+      .cover::before {
+        background: transparent;
+      }
+
+      .cover::after {
+        display: none;
+      }
+
       .header-inner {
         min-height: 88px;
       }
@@ -1078,10 +1211,21 @@
         box-shadow: none;
       }
 
+      .menu-open .nav {
+        display: flex;
+      }
+
       .nav a {
         min-height: 38px;
+        justify-content: flex-start;
         padding: 8px 10px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        box-shadow: none;
         font-size: 0.82rem;
+        line-height: normal;
+        text-align: left;
         white-space: nowrap;
       }
 
@@ -1119,11 +1263,6 @@
       .hero-visual img {
         height: 310px;
         min-height: 0;
-      }
-
-      .hero-visual img {
-        object-fit: cover;
-        object-position: center 42%;
       }
 
       .hero-name {
@@ -1242,6 +1381,66 @@
         display: none;
       }
     }
+
+    /* Popular menu detail-button reveal */
+    .menu-block.menu-motion-ready .menu-card .button-outline {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      color: var(--white);
+      border-color: transparent;
+      box-shadow: 0 15px 30px rgba(185, 77, 106, 0.32);
+      transition:
+        color 1.4s ease-in-out 0.2s,
+        border-color 1.4s ease-in-out 0.2s,
+        box-shadow 1.4s ease-in-out 0.2s,
+        transform 0.18s ease;
+    }
+
+    .menu-block.menu-motion-ready .menu-card .button-outline::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 1;
+      background: linear-gradient(135deg, #e38fa5 0%, #cf6883 52%, #b94d6a 100%);
+      transition: opacity 1.4s ease-in-out 0.2s;
+    }
+
+    .menu-block.menu-motion-ready .menu-card .button-outline > span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .menu-block.menu-motion-ready.is-buttons-visible .menu-card .button-outline {
+      color: var(--rose);
+      border-color: rgba(200, 155, 67, 0.36);
+      box-shadow: 0 10px 22px rgba(139, 75, 86, 0.08);
+    }
+
+    .menu-block.menu-motion-ready.is-buttons-visible .menu-card .button-outline::before {
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-frame-sparkle {
+        display: none;
+      }
+
+      .menu-block.menu-motion-ready .menu-card .button-outline {
+        color: var(--rose);
+        border-color: rgba(200, 155, 67, 0.36);
+        box-shadow: 0 10px 22px rgba(139, 75, 86, 0.08);
+        transition: transform 0.18s ease;
+      }
+
+      .menu-block.menu-motion-ready .menu-card .button-outline::before {
+        opacity: 0;
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1250,7 +1449,7 @@
       <div class="container header-inner">
         <a class="brand" href="#home" aria-label="Nail Salon Kanamo ホーム">
           <span class="logo-crop">
-            <img src="images/logo.jpg" alt="Nail Salon Kanamo ロゴ">
+            <img src="logo.jpg" alt="Nail Salon Kanamo ロゴ">
           </span>
           <span class="brand-text">
             <span class="brand-main">Nail Salon Kanamo</span>
@@ -1259,7 +1458,7 @@
         </a>
 
         <nav class="nav" id="globalNav" aria-label="グローバルナビゲーション">
-          <a href="https://sites.google.com/view/kanamo-nail/%E3%83%9B%E3%83%BC%E3%83%A0" target="_blank" rel="noopener noreferrer">ホーム</a>
+          <a href="https://sites.google.com/view/kanamo-nail/" target="_blank" rel="noopener noreferrer">ホーム</a>
           <a href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer">スペシャル定額 ￥8,499</a>
           <a href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E5%AE%9A%E9%A1%8D7499" target="_blank" rel="noopener noreferrer">スタンダード定額 ￥7,499</a>
           <a href="https://sites.google.com/view/kanamo-nail/%E3%83%95%E3%83%83%E3%83%88%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer">フット定額 ￥8,499</a>
@@ -1281,7 +1480,7 @@
           <div class="hero-board">
             <div class="hero-left">
               <span class="logo-crop hero-logo">
-                <img src="images/logo.jpg" alt="Nail Salon Kanamo ロゴ">
+                <img src="logo.jpg" alt="Nail Salon Kanamo ロゴ">
               </span>
 
               <div class="hero-copy">
@@ -1289,7 +1488,7 @@
                 <div class="hero-name">Nail Salon Kanamo</div>
                 <div class="gold-line" aria-hidden="true"></div>
                 <h1 id="hero-title">理想を越える、<br><span class="accent">感動の指先へ。</span></h1>
-                <p class="hero-subcopy">JNA認定講師が贈る、大人の女性に上品なときめきと癒しの時間を。爪に優しい至高のケアと心を彩る手描きアート。</p>
+                <p class="hero-subcopy">大人の女性の指先に、上品なときめきと癒しの時間を。完全プライベート空間で、あなただけの特別なひとときをお過ごしください。</p>
                 <ul class="hero-points" aria-label="Kanamoの特徴">
                   <li>京成八幡駅 徒歩1分</li>
                   <li>本八幡駅 徒歩5分</li>
@@ -1303,7 +1502,11 @@
             </div>
 
             <div class="hero-visual">
-              <img src="images/firstview-nail.jpg" alt="Nail Salon Kanamoの上品なネイルデザイン">
+              <img src="firstview-nail.jpg" alt="Nail Salon Kanamoの上品なネイルデザイン">
+              <svg class="hero-frame-sparkle" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <rect class="sparkle-trail" pathLength="100" vector-effect="non-scaling-stroke"></rect>
+                <rect class="sparkle-head" pathLength="100" vector-effect="non-scaling-stroke"></rect>
+              </svg>
             </div>
           </div>
 
@@ -1317,37 +1520,37 @@
             <div class="menu-grid">
               <article class="menu-card featured">
                 <a class="menu-image" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer" aria-label="スペシャル定額の詳細を見る">
-                  <img src="images/special.jpg" alt="スペシャル定額のネイルデザイン">
+                  <img src="special.jpg" alt="スペシャル定額のネイルデザイン">
                 </a>
                 <div class="menu-body">
                   <h3 class="menu-title">スペシャル定額</h3>
                   <div class="menu-price"><span class="yen">￥</span><span class="amount">8,499</span></div>
                   <p class="menu-desc">華やかで特別感のあるデザインを楽しみたい方へ。</p>
-                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer">詳しく見る</a>
+                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer"><span>詳しく見る</span></a>
                 </div>
               </article>
 
               <article class="menu-card">
                 <a class="menu-image" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E5%AE%9A%E9%A1%8D7499" target="_blank" rel="noopener noreferrer" aria-label="スタンダード定額の詳細を見る">
-                  <img src="images/standard.jpg" alt="スタンダード定額のネイルデザイン">
+                  <img src="standard-flat-rate.jpg" alt="スタンダード定額のシルバーラメとゴールド装飾のネイルデザイン">
                 </a>
                 <div class="menu-body">
                   <h3 class="menu-title">スタンダード定額</h3>
                   <div class="menu-price"><span class="yen">￥</span><span class="amount">7,499</span></div>
                   <p class="menu-desc">上品で可愛いデザインを、バランスよく楽しみたい方へ。</p>
-                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E5%AE%9A%E9%A1%8D7499" target="_blank" rel="noopener noreferrer">詳しく見る</a>
+                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E5%AE%9A%E9%A1%8D7499" target="_blank" rel="noopener noreferrer"><span>詳しく見る</span></a>
                 </div>
               </article>
 
               <article class="menu-card">
                 <a class="menu-image" href="https://sites.google.com/view/kanamo-nail/%E3%83%95%E3%83%83%E3%83%88%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer" aria-label="フット定額の詳細を見る">
-                  <img src="images/foot.jpg" alt="フット定額のネイルデザイン">
+                  <img src="foot-flat-rate.png" alt="フット定額のカラフルなフレンチとゴールドラメのネイルデザイン">
                 </a>
                 <div class="menu-body">
                   <h3 class="menu-title">フット定額</h3>
                   <div class="menu-price"><span class="yen">￥</span><span class="amount">8,499</span></div>
                   <p class="menu-desc">丁寧なケアと上質なデザインで、足元を華やかに彩ります。</p>
-                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%83%95%E3%83%83%E3%83%88%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer">詳しく見る</a>
+                  <a class="button button-outline" href="https://sites.google.com/view/kanamo-nail/%E3%83%95%E3%83%83%E3%83%88%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer"><span>詳しく見る</span></a>
                 </div>
               </article>
             </div>
@@ -1357,23 +1560,52 @@
             <h2 class="reason-head" id="reason-title">Kanamoが選ばれる理由</h2>
             <div class="reason-list">
               <div class="reason-item">
-                <div class="reason-icon">✦</div>
+                <div class="reason-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M8 20c-1.3-1.6-2-3.6-2-6V8a6 6 0 0 1 12 0v6c0 2.4-.7 4.4-2 6H8Z" />
+                    <path d="M9 14V9c0-2.1 1.3-3.5 3-3.5s3 1.4 3 3.5v5H9Z" />
+                  </svg>
+                </div>
                 <h3>パラジェル無料</h3>
               </div>
               <div class="reason-item">
-                <div class="reason-icon">✧</div>
+                <div class="reason-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M12 3S6 9.7 6 14a6 6 0 0 0 12 0c0-4.3-6-11-6-11Z" />
+                    <path d="M9.5 15.5a2.8 2.8 0 0 0 2.5 1.7" />
+                  </svg>
+                </div>
                 <h3>ソフトジェルオフ無料</h3>
               </div>
               <div class="reason-item">
-                <div class="reason-icon">✫✫</div>
+                <div class="reason-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <rect x="3.5" y="3.5" width="4.5" height="7" rx="2.25" />
+                    <rect x="9.75" y="3.5" width="4.5" height="7" rx="2.25" />
+                    <rect x="16" y="3.5" width="4.5" height="7" rx="2.25" />
+                    <rect x="6.75" y="13.5" width="4.5" height="7" rx="2.25" />
+                    <rect x="13" y="13.5" width="4.5" height="7" rx="2.25" />
+                  </svg>
+                </div>
                 <h3>圧倒的なデザイン数</h3>
               </div>
               <div class="reason-item">
-                <div class="reason-icon">✧</div>
+                <div class="reason-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M20 4C12.5 4 7 8.6 7 15.5V20" />
+                    <path d="M20 4c0 7.2-4.8 12-13 12" />
+                    <path d="m8 14 4-4M8 17l7-7M12 16l4-4" />
+                  </svg>
+                </div>
                 <h3>爪にやさしい施術</h3>
               </div>
               <div class="reason-item">
-                <div class="reason-icon">✦</div>
+                <div class="reason-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <circle cx="12" cy="12" r="8.5" />
+                    <path d="M12 7.5V12l3.2 2" />
+                  </svg>
+                </div>
                 <h3>時短で通いやすい</h3>
               </div>
             </div>
@@ -1385,7 +1617,7 @@
         <div class="container">
           <div class="salon-panel">
             <div class="salon-photo">
-              <img src="images/salon.jpg" alt="Nail Salon Kanamoの完全プライベート空間">
+              <img src="salon-interior-no-text.png" alt="大きなソファを備えたNail Salon Kanamoの完全プライベート空間">
             </div>
             <div class="salon-copy">
               <span class="section-label">サロン空間</span>
@@ -1409,10 +1641,10 @@
             <div>
               <div class="access-name">Nail Salon Kanamo</div>
               <p>ネイルサロン カナモ</p>
-              <p>～理想を越える感動の指先へ～</p>
+              <p>理想を越える、感動の指先へ。</p>
               <div class="access-actions">
                 <a class="button button-primary" href="https://beauty.hotpepper.jp/kr/slnH000801816/coupon/" target="_blank" rel="noopener noreferrer">Hot Pepperで予約する</a>
-                <a class="button button-gold" href="https://sites.google.com/view/kanamo-nail/%E3%83%9B%E3%83%BC%E3%83%A0" target="_blank" rel="noopener noreferrer">詳しいサロン情報を見る</a>
+                <a class="button button-gold" href="https://sites.google.com/view/kanamo-nail/" target="_blank" rel="noopener noreferrer">詳しいサロン情報を見る</a>
               </div>
             </div>
 
@@ -1432,15 +1664,18 @@
     <footer class="footer">
       <div class="container footer-inner">
         <span class="logo-crop">
-          <img src="images/logo.jpg" alt="Nail Salon Kanamo ロゴ">
+          <img src="logo.jpg" alt="Nail Salon Kanamo ロゴ">
         </span>
         <div>
           <div class="footer-name">Nail Salon Kanamo</div>
           <div class="footer-kana">ネイルサロン カナモ</div>
         </div>
-        <p class="footer-copy">～理想を越える感動の指先へ～</p>
+        <p class="footer-copy">理想を越える、感動の指先へ。</p>
         <p>TEL：<a class="tel-link" href="tel:07085277163">070-8527-7163</a></p>
-        <p class="copyright">© Nail Salon Kanamo. All Rights Reserved.<br>Website Design：<a href="https://will-next1.github.io/will-next/" target="_blank" rel="noopener noreferrer">ウィルネクスト合同会社</a></p>
+        <p class="copyright">© Nail Salon Kanamo. All Rights Reserved.</p>
+        <p class="footer-credit">
+          <a href="https://will-next1.github.io/will-next/" target="_blank" rel="noopener noreferrer">Web制作・運営支援｜ウィルネクスト合同会社</a>
+        </p>
       </div>
     </footer>
   </div>
@@ -1469,6 +1704,120 @@
         }
       });
     }
+
+    (() => {
+      const motionPreference = window.matchMedia
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+      const motionSupported =
+        "IntersectionObserver" in window &&
+        window.CSS &&
+        typeof CSS.supports === "function" &&
+        CSS.supports("transition", "opacity 1.4s ease-in-out") &&
+        !(motionPreference && motionPreference.matches);
+
+      // Fallback environments keep the original, final design unchanged.
+      if (!motionSupported) return;
+
+      const menuMotionBlock = document.querySelector(".menu-block");
+      const menuMotionGrid = menuMotionBlock
+        ? menuMotionBlock.querySelector(".menu-grid")
+        : null;
+
+      if (!menuMotionBlock || !menuMotionGrid) return;
+
+      let menuMotionObserver = null;
+
+      try {
+        menuMotionBlock.classList.add("menu-motion-ready");
+
+        menuMotionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const visible = entry.isIntersecting && entry.intersectionRatio >= 0.18;
+              menuMotionBlock.classList.toggle("is-buttons-visible", visible);
+            });
+          },
+          {
+            threshold: [0, 0.18],
+            rootMargin: "0px 0px -8% 0px"
+          }
+        );
+
+        menuMotionObserver.observe(menuMotionGrid);
+
+        if (motionPreference && typeof motionPreference.addEventListener === "function") {
+          motionPreference.addEventListener("change", (event) => {
+            if (event.matches) {
+              menuMotionObserver.disconnect();
+              menuMotionBlock.classList.remove("menu-motion-ready");
+            }
+          });
+        }
+      } catch (error) {
+        if (menuMotionObserver) menuMotionObserver.disconnect();
+        menuMotionBlock.classList.remove(
+          "menu-motion-ready",
+          "is-buttons-visible"
+        );
+      }
+    })();
+
+    (() => {
+      const sparkleFrame = document.querySelector(".hero-visual");
+      const sparkleImage = sparkleFrame ? sparkleFrame.querySelector("img") : null;
+      const sparkleSvg = sparkleFrame
+        ? sparkleFrame.querySelector(".hero-frame-sparkle")
+        : null;
+      const sparklePreference = window.matchMedia
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+      const sparkleSupported =
+        sparkleFrame &&
+        sparkleImage &&
+        sparkleSvg &&
+        window.CSS &&
+        typeof CSS.supports === "function" &&
+        CSS.supports("animation-name", "hero-frame-lap") &&
+        !(sparklePreference && sparklePreference.matches);
+
+      // Fallback environments keep the original image frame unchanged.
+      if (!sparkleSupported) return;
+
+      let sparkleScheduled = false;
+      const sizeFrameSparkle = () => {
+        const bounds = sparkleSvg.getBoundingClientRect();
+        if (bounds.width <= 4 || bounds.height <= 4) return false;
+
+        sparkleSvg.setAttribute("viewBox", `0 0 ${bounds.width} ${bounds.height}`);
+        sparkleSvg.querySelectorAll("rect").forEach((rect) => {
+          rect.setAttribute("x", "1.6");
+          rect.setAttribute("y", "1.6");
+          rect.setAttribute("width", String(bounds.width - 3.2));
+          rect.setAttribute("height", String(bounds.height - 3.2));
+          rect.setAttribute("rx", "21");
+          rect.setAttribute("ry", "21");
+        });
+        return true;
+      };
+
+      const playFrameSparkle = () => {
+        if (sparkleScheduled) return;
+        if (!sizeFrameSparkle()) return;
+        sparkleScheduled = true;
+        window.setTimeout(() => {
+          if (!(sparklePreference && sparklePreference.matches)) {
+            sparkleFrame.classList.add("is-sparkling");
+          }
+        }, 400);
+      };
+
+      if (sparkleImage.complete && sparkleImage.naturalWidth > 0) {
+        playFrameSparkle();
+      } else {
+        sparkleImage.addEventListener("load", playFrameSparkle, { once: true });
+      }
+    })();
   </script>
 </body>
 </html>
