@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <title>Nail Salon Kanamo | ネイルサロン カナモ</title>
   <meta name="description" content="京成八幡駅徒歩1分・本八幡駅徒歩5分。Nail Salon Kanamoは、約500デザインから選べる定額メニューと完全プライベート空間で、上品なネイル時間をお届けします。">
   <style>
@@ -145,8 +147,10 @@
     }
 
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
       background: rgba(255, 253, 250, 0.92);
       border-bottom: 1px solid rgba(200, 155, 67, 0.18);
@@ -159,6 +163,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+    }
+
+    .page {
+      padding-top: 76px;
     }
 
     .brand {
@@ -244,10 +252,6 @@
       line-height: 1.35;
       text-align: center;
       color: var(--brown);
-    }
-
-    .nav a:last-child {
-      grid-column: 1 / -1;
     }
 
     .nav a:hover,
@@ -1192,6 +1196,16 @@
 
       .header-inner {
         min-height: 88px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      }
+
+      .page {
+        padding-top: 88px;
+      }
+
+      .header-actions {
+        justify-self: end;
       }
 
       .brand .logo-crop {
@@ -1203,7 +1217,7 @@
         position: static;
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
         padding: 0;
         background: transparent;
         border: 0;
@@ -1216,20 +1230,24 @@
       }
 
       .nav a {
-        min-height: 38px;
-        justify-content: flex-start;
-        padding: 8px 10px;
-        border: 0;
+        min-height: 40px;
+        justify-content: center;
+        padding: 9px 12px;
+        border: 1px solid rgba(200, 155, 67, 0.32);
         border-radius: 999px;
-        background: transparent;
-        box-shadow: none;
+        background: linear-gradient(135deg, rgba(255, 236, 243, 0.98), rgba(252, 213, 226, 0.96));
+        box-shadow: 0 4px 10px rgba(139, 75, 86, 0.10);
         font-size: 0.82rem;
         line-height: normal;
-        text-align: left;
+        text-align: center;
         white-space: nowrap;
       }
 
       .menu-button {
+        display: none;
+      }
+
+      .nav .nav-reserve-link {
         display: none;
       }
 
@@ -1448,9 +1466,6 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#home" aria-label="Nail Salon Kanamo ホーム">
-          <span class="logo-crop">
-            <img src="logo.jpg" alt="Nail Salon Kanamo ロゴ">
-          </span>
           <span class="brand-text">
             <span class="brand-main">Nail Salon Kanamo</span>
             <span class="brand-sub">ネイルサロン カナモ</span>
@@ -1463,6 +1478,7 @@
           <a href="https://sites.google.com/view/kanamo-nail/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E5%AE%9A%E9%A1%8D7499" target="_blank" rel="noopener noreferrer">スタンダード定額 ￥7,499</a>
           <a href="https://sites.google.com/view/kanamo-nail/%E3%83%95%E3%83%83%E3%83%88%E5%AE%9A%E9%A1%8D8499" target="_blank" rel="noopener noreferrer">フット定額 ￥8,499</a>
           <a href="https://sites.google.com/view/kanamo-nail/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9tel" target="_blank" rel="noopener noreferrer">アクセス・TEL</a>
+          <a class="nav-reserve-link" href="https://beauty.hotpepper.jp/kr/slnH000801816/coupon/" target="_blank" rel="noopener noreferrer">ネット予約</a>
         </nav>
 
         <div class="header-actions">
