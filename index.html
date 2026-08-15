@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <title>Nail Salon Kanamo | ネイルサロン カナモ</title>
   <meta name="description" content="京成八幡駅徒歩1分・本八幡駅徒歩5分。Nail Salon Kanamoは、約500デザインから選べる定額メニューと完全プライベート空間で、上品なネイル時間をお届けします。">
@@ -1000,6 +1002,74 @@
       z-index: 2;
     }
 
+    .faq-section {
+      padding: 58px 0;
+      background:
+        radial-gradient(circle at 84% 18%, rgba(255, 224, 233, 0.38), transparent 260px),
+        linear-gradient(180deg, #fffdfb, #fff9f6);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 900px;
+      margin: 28px auto 0;
+    }
+
+    .faq-item {
+      overflow: hidden;
+      border: 1px solid rgba(200, 155, 67, 0.24);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 28px rgba(111, 76, 64, 0.07);
+    }
+
+    .faq-item summary {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 14px;
+      min-height: 62px;
+      padding: 16px 18px;
+      color: var(--brown);
+      font-weight: 900;
+      line-height: 1.55;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "＋";
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f8e8ec, #fff7ef);
+      color: var(--rose);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after {
+      content: "−";
+    }
+
+    .faq-item summary:focus-visible {
+      outline: 3px solid rgba(209, 89, 124, 0.28);
+      outline-offset: -3px;
+    }
+
+    .faq-answer {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
     .access-section {
       background:
         radial-gradient(circle at 16% 22%, rgba(255, 224, 233, 0.46), transparent 270px),
@@ -1405,6 +1475,16 @@
         justify-self: end;
       }
 
+      .faq-section .section-head {
+        grid-template-columns: auto auto auto;
+        justify-content: start;
+        column-gap: 24px;
+      }
+
+      .faq-section .design-count {
+        justify-self: start;
+      }
+
       .reason-band {
         grid-template-columns: 210px 1fr;
         align-items: center;
@@ -1724,6 +1804,63 @@
               <p>ふかふかの大きなソファで、リラックスしながらネイル時間をお過ごしいただけます。</p>
               <p>完全プライベート空間で、周りを気にせずゆったりとおくつろぎください。</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section" id="faq" aria-labelledby="faq-title">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label">FAQ</span>
+            <h2 id="faq-title">よくあるご質問</h2>
+            <div class="design-count">ご予約前の疑問にお答えします</div>
+          </div>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>初めてですが、どのメニューを選べばよいですか？</summary>
+              <div class="faq-answer">当店は定額メニューに特化したサロンです。初めてのお客様には、程よくアートやデザインを取り入れた「スタンダード定額」がおすすめです。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>ソフトジェルの付け替えオフは無料ですか？</summary>
+              <div class="faq-answer">ソフトジェルの付け替えオフが含まれています。ただし、再来店時の他店オフは700円、ハードジェル・スカルプのオフは別途2,000円がかかります。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>パラジェルは追加料金がかかりますか？</summary>
+              <div class="faq-answer">対象のジェルメニューには、パラジェルが追加料金なしで含まれています。自爪への負担が気になる方もお気軽にご相談ください。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>定額デザインの色変更はできますか？</summary>
+              <div class="faq-answer">カラー変更・配置変更が可能です。ご来店の際に、こちらからご案内いたします。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>施術時間はどのくらいかかりますか？</summary>
+              <div class="faq-answer">メニューやオフの有無、爪の状態によって施術時間が異なります。お時間に制限がある場合は、ご予約前にお電話でご相談ください。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>予約の変更・キャンセルはできますか？</summary>
+              <div class="faq-answer">ご予約の変更・キャンセルは、分かり次第お早めにお願いいたします。HOT PEPPER Beautyからご予約された場合は、予約履歴からお手続きください。当日の変更・キャンセルは、お電話でご連絡をお願いいたします。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>利用できる支払い方法を教えてください。</summary>
+              <div class="faq-answer">Visa、Mastercard、JCB、UnionPay（銀聯）、PayPayをご利用いただけます。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>爪が短い・薄い・傷んでいても施術できますか？</summary>
+              <div class="faq-answer">まずは爪の状態を確認し、無理のない施術内容をご提案いたします。爪の薄さや傷みが気になる方も、お気軽にご相談ください。爪や皮膚の状態によっては、ジェルの施術を控え、ケアメニューなどをご案内する場合があります。</div>
+            </details>
+
+            <details class="faq-item">
+              <summary>長さ出しや亀裂補強はできますか？</summary>
+              <div class="faq-answer">対応可能です。アクリルによる亀裂補修は1本550円、長さ出しは1本880円です。必要な本数を確認のうえ、ご予約時に追加メニューとしてお選びください。</div>
+            </details>
           </div>
         </div>
       </section>
