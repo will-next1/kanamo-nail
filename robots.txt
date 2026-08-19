@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://kanamo-nail.willnext.workers.dev/sitemap.xml
