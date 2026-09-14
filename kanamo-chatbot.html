@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="ja" data-theme="light"><head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kanamo ネイル案内チャット</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap">
+<style>
+  /* ---- Nail Salon Kanamo 公式サイトのトークンを継承 ---- */
+  :root {
+    --paper: #faf8f5;
+    --white: #fffefd;
+    --ink: #453c3c;
+    --muted: #746663;
+    --line: #dfd5cf;
+    --rose: #8e5f64;
+    --rose-light: #eee0dc;
+    --rose-ink: #fffefd;
+    --shadow: 0 24px 60px rgba(69, 60, 60, .16);
+    --serif: "Yu Mincho", "Hiragino Mincho ProN", "Shippori Mincho", serif;
+    --english: Georgia, "Times New Roman", "Yu Mincho", serif;
+    --fs: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1f1a1a; --white: #2a2424; --ink: #efe7e3; --muted: #b3a5a1;
+      --line: #4a3f3f; --rose: #c99ca1; --rose-light: #3b2f31; --rose-ink: #1f1a1a;
+      --shadow: 0 24px 60px rgba(0, 0, 0, .5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1f1a1a; --white: #2a2424; --ink: #efe7e3; --muted: #b3a5a1;
+    --line: #4a3f3f; --rose: #c99ca1; --rose-light: #3b2f31; --rose-ink: #1f1a1a;
+    --shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: var(--fs); line-height: 1.9; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; color: inherit; }
+  button:focus-visible, a:focus-visible { outline: 1px solid var(--rose); outline-offset: 3px; }
+
+  .eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--english); font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--rose);
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--rose); flex: none; }
+
+  /* ---------- 背景（サイトの代わりの説明ページ） ---------- */
+  .backdrop { max-width: 720px; margin: 0 auto; padding: 56px 24px 220px; }
+  .backdrop h1 {
+    font-family: var(--serif); font-weight: 500; font-size: 28px; letter-spacing: .08em;
+    line-height: 1.5; margin: 14px 0 16px; text-wrap: balance;
+  }
+  .backdrop h1 em { font-style: normal; color: var(--rose); }
+  .backdrop p { color: var(--muted); font-size: 14px; max-width: 36em; margin: 0 0 8px; letter-spacing: .04em; }
+  .backdrop .note {
+    margin-top: 32px; padding: 18px 20px; border: .8px solid var(--line); background: var(--white);
+    font-size: 13px; letter-spacing: .03em; color: var(--muted);
+  }
+  .backdrop .note b { color: var(--rose); font-weight: 600; }
+  .backdrop code { font-family: var(--english); font-size: 13px; color: var(--ink); }
+
+  /* ---------- 斜線アイコン（サイトのボタンと同じ） ---------- */
+  .diag { width: 14px; height: 14px; flex: none; }
+
+  /* ---------- 起動ボタン ---------- */
+  .kb-launcher {
+    position: fixed; right: 20px; bottom: 20px; z-index: 50;
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 0 22px; height: 52px; border: 0;
+    background: var(--rose); color: var(--rose-ink);
+    font-family: var(--serif); font-size: 14px; letter-spacing: .18em;
+    box-shadow: var(--shadow); cursor: pointer;
+  }
+  .kb-launcher[hidden] { display: none; }
+
+  /* ---------- パネル ---------- */
+  .kb-panel {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    width: min(420px, calc(100vw - 40px)); height: min(720px, calc(100vh - 40px));
+    display: flex; flex-direction: column;
+    background: var(--paper); color: var(--ink);
+    border: .8px solid var(--line); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .kb-panel[hidden] { display: none; }
+  @media (max-width: 560px) {
+    .kb-panel { right: 0; bottom: 0; width: 100vw; height: 100dvh; border: 0; }
+  }
+
+  .kb-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 16px 14px 20px; border-bottom: .8px solid var(--line); background: var(--white);
+  }
+  .kb-title { flex: 1; min-width: 0; }
+  .kb-title .name { font-family: var(--english); font-size: 22px; line-height: 1.1; letter-spacing: .02em; }
+  .kb-title .name i { font-style: normal; color: var(--rose); }
+  .kb-title .sub { font-family: var(--english); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .kb-tools { display: flex; gap: 8px; }
+  .kb-tools button {
+    height: 34px; padding: 0 12px; border: .8px solid var(--line); background: transparent;
+    font-family: var(--serif); font-size: 12px; letter-spacing: .1em; cursor: pointer;
+  }
+  .kb-tools button[aria-pressed="true"] { border-color: var(--rose); color: var(--rose); }
+  .kb-tools .x { width: 34px; padding: 0; font-family: var(--english); font-size: 16px; }
+
+  .kb-log {
+    flex: 1; overflow-y: auto; padding: 20px 18px 14px;
+    display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) { .kb-log { scroll-behavior: auto; } }
+
+  .msg { display: flex; gap: 12px; }
+  .msg .who {
+    width: 30px; height: 30px; flex: none; margin-top: 4px;
+    border: .8px solid var(--line); background: var(--white); color: var(--rose);
+    display: grid; place-items: center; font-family: var(--english); font-style: italic; font-size: 15px;
+  }
+  .msg .bubble {
+    padding: 14px 18px; max-width: calc(100% - 42px);
+    background: var(--white); border: .8px solid var(--line);
+    letter-spacing: .03em; line-height: 1.85;
+  }
+  .msg.user { justify-content: flex-end; }
+  .msg.user .bubble { background: var(--rose); color: var(--rose-ink); border-color: var(--rose); letter-spacing: .06em; }
+  .bubble p { margin: 0; }
+  .bubble p + p { margin-top: 10px; }
+  .bubble strong { font-weight: 600; color: var(--rose); }
+  .msg.user .bubble strong { color: inherit; }
+  .bubble ul { margin: 8px 0 0; padding: 0; list-style: none; }
+  .bubble li { position: relative; padding-left: 18px; }
+  .bubble li::before { content: ""; position: absolute; left: 0; top: .95em; width: 10px; height: 1px; background: var(--rose); }
+  .bubble li + li { margin-top: 6px; }
+
+  .price-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .price-table th, .price-table td { padding: 10px 2px; border-bottom: .8px solid var(--line); vertical-align: top; text-align: left; font-weight: 400; }
+  .price-table th { font-size: .95em; letter-spacing: .03em; }
+  .price-table td.price { text-align: right; white-space: nowrap; font-family: var(--english); font-size: 1.15em; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .price-table tr:last-child th, .price-table tr:last-child td { border-bottom: 0; }
+  .price-table small { display: block; color: var(--muted); font-size: .82em; letter-spacing: .02em; line-height: 1.6; margin-top: 2px; }
+
+  /* ---------- 選択肢 ---------- */
+  .choices { display: flex; flex-direction: column; gap: 8px; padding-left: 42px; }
+  .choices .eyebrow { margin: 4px 0 4px 2px; }
+  .choice {
+    display: flex; align-items: center; gap: 14px; width: 100%;
+    min-height: 56px; padding: 12px 16px 12px 18px; text-align: left;
+    border: .8px solid var(--line); background: var(--white); color: var(--ink);
+    font-family: var(--serif); font-size: 16px; font-weight: 500; letter-spacing: .06em; line-height: 1.45;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .15s, background .15s;
+  }
+  .choice .idx { font-family: var(--english); font-style: italic; font-size: 13px; color: var(--rose); width: 22px; flex: none; letter-spacing: 0; }
+  .choice .tx { flex: 1; }
+  .choice .diag { color: var(--rose); }
+  .choice:hover { border-color: var(--rose); }
+  .choice.cta { background: var(--rose); color: var(--rose-ink); border-color: var(--rose); }
+  .choice.cta .diag { color: var(--rose-ink); }
+  .choice.cta:hover { filter: brightness(1.06); }
+  .choice.quiet { background: transparent; border-color: transparent; min-height: 44px; color: var(--muted); font-size: 14px; letter-spacing: .1em; padding-left: 4px; }
+  .choice.quiet .diag { color: var(--muted); }
+  .choice.quiet:hover { color: var(--rose); border-color: transparent; }
+  .choices.done .choice { opacity: .4; pointer-events: none; }
+  .choices.done .choice.picked { opacity: 1; border-color: var(--rose); background: var(--rose-light); color: var(--ink); }
+  .choices.done .eyebrow { opacity: .5; }
+
+  .typing { display: inline-flex; gap: 6px; padding: 8px 2px; }
+  .typing i { width: 5px; height: 5px; background: var(--rose); opacity: .4; animation: blink 1s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes blink { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+  @media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .6; } }
+
+  /* ---------- 下部バー ---------- */
+  .kb-bar {
+    display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 8px;
+    padding: 12px 14px 14px; border-top: .8px solid var(--line); background: var(--white);
+  }
+  .kb-bar button, .kb-bar a {
+    height: 48px; border: .8px solid var(--line); background: transparent; color: var(--ink);
+    font-family: var(--serif); font-size: 13px; letter-spacing: .14em;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; text-decoration: none;
+  }
+  .kb-bar button:hover:not(:disabled), .kb-bar a:hover { border-color: var(--rose); }
+  .kb-bar button:disabled { opacity: .35; cursor: default; }
+  .kb-bar .arr { font-family: var(--english); font-size: 15px; }
+  .kb-bar a.primary { background: var(--rose); color: var(--rose-ink); border-color: var(--rose); }
+
+  /* ---------- 入力欄 ---------- */
+  .kb-ask { border-top: .8px solid var(--line); background: var(--white); padding: 10px 14px 0; }
+  .kb-sug { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .kb-sug:empty { display: none; }
+  .kb-sug .eyebrow { width: 100%; margin: 2px 0 2px; }
+  .kb-sug button {
+    border: .8px solid var(--line); background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 13px; letter-spacing: .04em; padding: 7px 12px; cursor: pointer;
+  }
+  .kb-sug button:hover { border-color: var(--rose); color: var(--rose); }
+  .kb-form { display: flex; gap: 8px; }
+  .kb-form input {
+    flex: 1; min-width: 0; height: 48px; padding: 0 14px;
+    border: .8px solid var(--line); background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 16px; letter-spacing: .04em;
+  }
+  .kb-form input::placeholder { color: var(--muted); opacity: .8; }
+  .kb-form input { text-overflow: ellipsis; }
+  .kb-form input:focus { outline: none; border-color: var(--rose); }
+  .kb-form button {
+    height: 48px; padding: 0 14px; flex: none; border: .8px solid var(--rose); background: transparent; color: var(--rose);
+    font-family: var(--serif); font-size: 13px; letter-spacing: .14em; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .kb-form button:hover { background: var(--rose); color: var(--rose-ink); }
+  .kb-bar { border-top: 0; padding-top: 10px; }
+  .kb-panel[data-size="large"] .kb-form input { font-size: 18px; }
+
+  .kb-panel[data-size="large"] { --fs: 18px; }
+  .kb-panel[data-size="large"] .choice { font-size: 18px; min-height: 62px; }
+  .kb-panel[data-size="large"] .kb-bar button, .kb-panel[data-size="large"] .kb-bar a { font-size: 15px; }
+</style>
+<style>html,body{height:100%;min-height:0;overflow:hidden}.kb-panel{inset:0;width:100%;height:100%;height:100dvh;box-shadow:none}.kb-log{min-height:0;overscroll-behavior:contain}.kb-bar{padding-bottom:calc(14px + env(safe-area-inset-bottom))}.kb-launcher{display:none!important}</style>
+</head><body>
+
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-diag" viewBox="0 0 16 16"><path d="M3 13 13 3M6.5 3H13v6.5" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="square"/></symbol>
+</svg>
+
+<button class="kb-launcher" id="kbLauncher" hidden aria-label="チャットを開く">
+  ご案内チャット <svg class="diag"><use href="#i-diag"/></svg>
+</button>
+
+<section class="kb-panel" id="kbPanel" data-size="normal" role="dialog" aria-label="Nail Salon Kanamo ご案内チャット">
+  <header class="kb-head">
+    <div class="kb-title">
+      <div class="name">Kanamo<i>.</i></div>
+      <div class="sub">Nail Salon / Motoyawata</div>
+    </div>
+    <div class="kb-tools">
+      <button type="button" id="kbSize" aria-pressed="false" title="文字を大きく">文字 大</button>
+      <button type="button" class="x" id="kbClose" aria-label="チャットを閉じる">×</button>
+    </div>
+  </header>
+
+  <div class="kb-log" id="kbLog" aria-live="polite"></div>
+
+  <div class="kb-ask">
+    <div class="kb-sug" id="kbSug" aria-label="入力候補"></div>
+    <form class="kb-form" id="kbForm" autocomplete="off">
+      <input type="text" id="kbInput" placeholder="ご質問を入力" maxlength="80" aria-label="質問を入力">
+      <button type="submit" id="kbSend">送信 <svg class="diag"><use href="#i-diag"/></svg></button>
+    </form>
+  </div>
+
+  <nav class="kb-bar" aria-label="操作">
+    <button type="button" id="kbBack" disabled><span class="arr">←</span>戻る</button>
+    <button type="button" id="kbHome">最初へ</button>
+    <a class="primary" id="kbReserve" href="https://beauty.hotpepper.jp/kr/slnH000801816/coupon/" target="_blank" rel="noopener">ご予約 <svg class="diag"><use href="#i-diag"/></svg></a>
+  </nav>
+
+</section>
+<script>
+/* =====================================================================
+   KANAMO_DATA : 回答データ（後日、元データと連結する際はここを差し替え）
+   - text   : 段落の配列。**太字** が使えます
+   - table  : [{name, price, note}] 料金表
+   - list   : 箇条書き
+   - links  : 外部リンクのCTAボタン [{label, url, icon}]
+   - next   : 次の選択肢 [{label, to, icon}]  (to = ノードID)
+   ===================================================================== */
+const SALON = {
+  name: "Nail Salon Kanamo",
+  tel: "070-8527-7163",
+  telHref: "tel:07085277163",
+  address: "千葉県市川市八幡2丁目2-11 メゾンクロシェット302",
+  hours: "10:00～20:00",
+  holiday: "不定休",
+  reserve: "https://beauty.hotpepper.jp/kr/slnH000801816/coupon/",
+  catalog: "https://sites.google.com/view/kanamo-nail/",
+  instagram: "https://www.instagram.com/nailsalon_kanamo/",
+  gmap: "https://www.google.com/maps/search/?api=1&query=Nail%20Salon%20Kanamo",
+  ymap: "https://map.yahoo.co.jp/search?q=Nail%20Salon%20Kanamo",
+  warranty: "https://sites.google.com/view/kanamo-nail/施術保障再来特典",
+  menuPage: "https://sites.google.com/view/kanamo-nail/メニュー表",
+  std: "https://sites.google.com/view/kanamo-nail/スタンダード定額7499",
+  spc: "https://sites.google.com/view/kanamo-nail/スペシャル定額8499",
+  foot: "https://sites.google.com/view/kanamo-nail/フット定額8499",
+  howto: "https://sites.google.com/view/kanamo-nail/how-to",
+};
+
+const MAIN_MENU = [
+  { label: "ご予約について", to: "reserve" },
+  { label: "メニュー・料金", to: "menu" },
+  { label: "アクセス・営業時間", to: "access" },
+  { label: "施術保障・再来特典", to: "warranty" },
+  { label: "よくあるご質問", to: "faq" },
+  { label: "サロンについて", to: "about" },
+];
+
+const KANAMO_DATA = {
+  start: {
+    text: ["**Nail Salon Kanamo** のご案内チャットです。", "女性専用・完全個室のプライベートネイルサロンです。", "ご用件をお選びください。"],
+    next: MAIN_MENU,
+    label: "ご用件をお選びください",
+    numbered: true,
+  },
+
+  /* ---------------- 予約 ---------------- */
+  reserve: {
+    text: ["ご予約についてのご案内です。知りたい項目をお選びください。"],
+    next: [
+      { label: "予約方法", to: "reserve_how" },
+      { label: "初めての方の流れ", to: "first" },
+      { label: "予約の変更・キャンセル", to: "cancel" },
+      { label: "施術時間の目安", to: "duration" },
+    ],
+  },
+  reserve_how: {
+    text: ["ご予約は **Hot Pepper Beauty の公式予約サイト** から24時間受け付けています。", "亀裂補修や長さ出しをご希望の場合は、必要な本数を **ご予約時に記載** いただけるとスムーズです。", "お時間に制限がある場合や、ご不明点はお電話でもお気軽にご相談ください。"],
+    links: [
+      { label: "予約サイトで空きを見る", url: SALON.reserve },
+      { label: "電話する " + SALON.tel, url: SALON.telHref },
+    ],
+    next: [
+      { label: "初めての方の流れ", to: "first" },
+      { label: "メニュー・料金を見る", to: "menu" },
+    ],
+  },
+  first: {
+    text: ["初めての方も、どうぞご安心ください。ご来店までの流れは3ステップです。"],
+    list: [
+      "**1. デザインを確認**　公式カタログから気になるデザインを選びます（約450デザイン）",
+      "**2. 予約**　Hot Pepper Beauty からご予約。亀裂補修・長さ出しは本数を記載",
+      "**3. ご来店**　カラー変更・配置変更はご来店時にご案内します",
+    ],
+    text2: ["初めての方には、ほどよくアートを楽しめる **スタンダード定額（¥7,499）** がおすすめです。"],
+    links: [
+      { label: "公式デザインカタログを見る", url: SALON.catalog },
+      { label: "予約サイトへ", url: SALON.reserve },
+    ],
+    next: [
+      { label: "スタンダード定額とは？", to: "std" },
+      { label: "支払い方法", to: "payment" },
+    ],
+  },
+  cancel: {
+    text: ["はい、ご予約の **変更・キャンセルは可能** です。", "ご都合が変わった際は、分かり次第お早めにお手続きをお願いいたします。", "当日のキャンセルにつきましては、お控えいただけますと幸いです。"],
+    links: [
+      { label: "予約サイトで変更する", url: SALON.reserve },
+      { label: "電話する " + SALON.tel, url: SALON.telHref },
+    ],
+    next: [{ label: "予約についてに戻る", to: "reserve" }],
+  },
+  duration: {
+    text: ["施術時間は、メニューやオフの有無、お爪の状態によって異なります。", "お時間に制限がある場合は、**ご予約前にお電話** でお気軽にご相談ください。"],
+    links: [{ label: "電話する " + SALON.tel, url: SALON.telHref }],
+    next: [{ label: "予約方法", to: "reserve_how" }],
+  },
+
+  /* ---------------- メニュー ---------------- */
+  menu: {
+    text: ["メニュー・料金のご案内です。すべてのジェルメニューは **パラジェル・丁寧なケア・ソフトジェルオフ代・税込** のコミコミ価格です。"],
+    next: [
+      { label: "定額メニュー（人気）", to: "teigaku" },
+      { label: "ハンド その他メニュー", to: "hand_other" },
+      { label: "フット メニュー", to: "foot_menu" },
+      { label: "オフ・お直し・オプション", to: "off" },
+      { label: "料金に含まれるもの", to: "included" },
+      { label: "お支払い方法", to: "payment" },
+    ],
+  },
+  teigaku: {
+    text: ["定額メニューは3種類。約450デザインから選べ、毎月デザインが更新されます。", "下記は **Hot Pepper Beauty クーポン適用時の料金**（税込）です。"],
+    table: [
+      { name: "スタンダード定額", price: "¥7,499", note: "上品で可愛いデザイン。初めての方におすすめ" },
+      { name: "スペシャル定額", price: "¥8,499", note: "華やかで特別感のあるデザイン" },
+      { name: "フット定額", price: "¥8,499", note: "足元向けデザイン" },
+    ],
+    next: [
+      { label: "スタンダード定額を詳しく", to: "std" },
+      { label: "スペシャル定額を詳しく", to: "spc" },
+      { label: "フット定額を詳しく", to: "foot_teigaku" },
+    ],
+  },
+  std: {
+    text: ["**スタンダード定額　¥7,499**（税込・クーポン価格 / 通常 ¥8,500）", "シンプル・オフィス向けから、ほどよくアートを楽しめるデザインまで。毎月デザインを更新しています。", "パラジェル＆ソフトジェルオフ込み。カラー変更・配置変更もご来店時にご案内します。"],
+    links: [
+      { label: "スタンダード定額のデザインを見る", url: SALON.std },
+      { label: "予約サイトへ", url: SALON.reserve },
+    ],
+    next: [
+      { label: "スペシャル定額を見る", to: "spc" },
+      { label: "料金に含まれるもの", to: "included" },
+    ],
+  },
+  spc: {
+    text: ["**スペシャル定額　¥8,499**（税込・クーポン価格 / 通常 ¥9,800）", "トレンドを取り入れた、華やかで特別感のあるアートデザイン。毎月デザインを更新しています。", "パラジェル＆ソフトジェルオフ込み。"],
+    links: [
+      { label: "スペシャル定額のデザインを見る", url: SALON.spc },
+      { label: "予約サイトへ", url: SALON.reserve },
+    ],
+    next: [
+      { label: "スタンダード定額を見る", to: "std" },
+      { label: "フット定額を見る", to: "foot_teigaku" },
+    ],
+  },
+  foot_teigaku: {
+    text: ["**フット定額　¥8,499**（税込・クーポン価格 / 通常 ¥10,000）", "毎月デザインを更新。100種類以上の豊富なサンプルからお選びいただけます。", "パラジェル＆ソフトジェルオフ込み。"],
+    links: [
+      { label: "フット定額のデザインを見る", url: SALON.foot },
+      { label: "予約サイトへ", url: SALON.reserve },
+    ],
+    next: [
+      { label: "フットのその他メニュー", to: "foot_menu" },
+      { label: "定額メニュー一覧", to: "teigaku" },
+    ],
+  },
+  hand_other: {
+    text: ["ハンドのその他メニューです（税込）。"],
+    text2: ["Hot Pepper Beauty にてお得なクーポンを発行している場合がございます。"],
+    table: [
+      { name: "ジェルつけ放題（90分）", price: "¥10,800", note: "時間内自由・持ち込みOK" },
+      { name: "ワンカラー or グラデーション", price: "¥7,500", note: "150色から2色まで。ラメまたはホロ込み" },
+      { name: "フレンチ", price: "¥7,800", note: "斜め・逆フレンチOK。ラメラインまたはホロ込み" },
+      { name: "マグネットジェル", price: "¥7,800", note: "約50色。磁石の当て方サンプルあり" },
+      { name: "フラッシュジェル", price: "¥7,800", note: "約15色から選択" },
+      { name: "上品な透明ジェル", price: "¥7,000", note: "色なし。艶やかで健康的な仕上がり" },
+      { name: "ハンドケアセット", price: "¥4,200", note: "甘皮カット・形整え・ツヤ仕上げ（男性不可）" },
+    ],
+    links: [{ label: "クーポンサイトを見る", url: SALON.reserve }, { label: "メニュー表（全体）を見る", url: SALON.menuPage }],
+    next: [
+      { label: "定額メニューを見る", to: "teigaku" },
+      { label: "オフ・オプション", to: "off" },
+    ],
+  },
+  foot_menu: {
+    text: ["フットメニューです（税込）。"],
+    text2: ["Hot Pepper Beauty にてお得なクーポンを発行している場合がございます。"],
+    links: [{ label: "クーポンサイトを見る", url: SALON.reserve }],
+    table: [
+      { name: "フット定額", price: "¥8,499", note: "クーポン価格（通常 ¥10,000）。毎月デザイン更新" },
+      { name: "フットワンカラー", price: "¥7,500", note: "150色から2色までOK。ウォーターケア付き" },
+      { name: "フットマグネットジェル", price: "¥7,800", note: "約50色" },
+      { name: "フットフラッシュジェル", price: "¥7,800", note: "約15色。存在感抜群" },
+      { name: "フットジェルつけ放題（90分）", price: "¥10,800", note: "こだわりデザインを詰め込めます" },
+      { name: "上品な透明ジェル（フット）", price: "¥7,000", note: "クリアジェルで艶やかに" },
+      { name: "フットケアセット", price: "¥4,200", note: "形整え・甘皮カット・ツヤ出し（男性不可）" },
+    ],
+    next: [
+      { label: "フット定額を詳しく", to: "foot_teigaku" },
+      { label: "メニュー一覧に戻る", to: "menu" },
+    ],
+  },
+  off: {
+    text: ["オフ・お直し・オプションの料金です（税込）。"],
+    table: [
+      { name: "再来のお客様 自店ジェルオフ", price: "¥0", note: "付け替え時" },
+      { name: "新規のお客様 他店ソフトジェルオフ", price: "¥0", note: "付け替え時" },
+      { name: "再来のお客様 他店ソフトジェルオフ", price: "¥700", note: "付け替え時" },
+      { name: "ハードジェル・スカルプのオフ", price: "¥2,000", note: "付け替え時" },
+      { name: "オフのみ（自店ジェル・ケア込み）", price: "¥3,900", note: "形整え・甘皮カット・ツヤ出し込み" },
+      { name: "オフのみ（他店ジェル・ケア込み）", price: "¥5,000", note: "ハードジェルは別途 ¥2,100" },
+      { name: "オフのみ（自店ソフトジェル・除去のみ）", price: "¥3,000", note: "ケアなし" },
+      { name: "亀裂補修（アクリル）1本", price: "¥550", note: "" },
+      { name: "長さ出し（アクリル）1本", price: "¥880", note: "" },
+      { name: "ジェルお直し 1本（保障期間内）", price: "¥0", note: "保障期間後は ¥550。3本以上は要記載" },
+    ],
+    next: [
+      { label: "施術保障について", to: "warranty_detail" },
+      { label: "オフの方法（マシン不使用）", to: "faq_off" },
+    ],
+  },
+  included: {
+    text: ["すべてのジェルメニューは、次の内容が **料金に含まれています**。"],
+    list: [
+      "**パラジェル** 使用（追加料金なし）",
+      "**ソフトジェルの付け替えオフ**（自店・新規のお客様は他店オフも無料）",
+      "**丁寧なケア**（甘皮ケア・フォルムづくり）",
+      "**税込** 表示",
+      "**1週間以内の無料お直し保障**",
+    ],
+    text2: ["※再来店時の他店オフは +¥700、ハードジェル・スカルプのオフは +¥2,000 です。"],
+    next: [
+      { label: "定額メニューを見る", to: "teigaku" },
+      { label: "施術保障の詳細", to: "warranty_detail" },
+    ],
+  },
+  payment: {
+    text: ["お支払いには次の方法をご利用いただけます。"],
+    list: ["**現金**", "**クレジットカード**：Visa / Mastercard / JCB / UnionPay（銀聯）", "**QR決済**：PayPay"],
+    next: [
+      { label: "予約方法", to: "reserve_how" },
+      { label: "メニュー一覧に戻る", to: "menu" },
+    ],
+  },
+
+  /* ---------------- アクセス ---------------- */
+  access: {
+    text: ["アクセス・営業時間のご案内です。"],
+    next: [
+      { label: "住所・地図", to: "address" },
+      { label: "駅からの道順", to: "route" },
+      { label: "営業時間・定休日", to: "hours" },
+      { label: "電話番号", to: "tel" },
+    ],
+  },
+  address: {
+    text: ["**" + SALON.address + "**", "京成八幡駅 徒歩1分 / JR本八幡駅 徒歩5分。建物「メゾンクロシェット」の3階 302号室です。"],
+    links: [
+      { label: "Googleマップで開く", url: SALON.gmap },
+      { label: "Yahoo!マップで開く", url: SALON.ymap },
+    ],
+    next: [{ label: "駅からの道順", to: "route" }],
+  },
+  route: {
+    text: ["**京成八幡駅からの道順**"],
+    list: [
+      "改札を背にして、**左の階段** を降ります",
+      "踏切沿いを **セブンイレブン** まで歩きます",
+      "セブンイレブンの向かいに「**鳥きよ**」があります",
+      "その建物の **3階 302号室** が当店です",
+    ],
+    text2: ["※踏切は交通量が多いので、通行の際はお気をつけください。"],
+    links: [{ label: "Googleマップで開く", url: SALON.gmap }],
+    next: [{ label: "営業時間・定休日", to: "hours" }],
+  },
+  hours: {
+    text: ["**営業時間**　" + SALON.hours, "**定休日**　" + SALON.holiday, "完全予約制のため、空き状況は予約サイトでご確認ください。"],
+    links: [{ label: "予約サイトで空きを見る", url: SALON.reserve }],
+    next: [{ label: "住所・地図", to: "address" }],
+  },
+  tel: {
+    text: ["**電話番号**　" + SALON.tel, "施術中はお電話に出られない場合があります。ご予約は予約サイトからも24時間受け付けています。"],
+    links: [
+      { label: "電話する " + SALON.tel, url: SALON.telHref },
+      { label: "予約サイトへ", url: SALON.reserve },
+    ],
+    next: [{ label: "アクセスに戻る", to: "access" }],
+  },
+
+  /* ---------------- 保障・特典 ---------------- */
+  warranty: {
+    text: ["施術保障と再来特典のご案内です。"],
+    next: [
+      { label: "施術保障の内容", to: "warranty_detail" },
+      { label: "再来店特典", to: "repeat" },
+      { label: "人工爪の注意事項", to: "care" },
+    ],
+  },
+  warranty_detail: {
+    text: ["**施術保障（ジェル・スカルプチュア）**", "保障期間は **施術日を含む7日間** です。"],
+    list: [
+      "**対象**：サロンの不備による剥がれ・浮き・石落ち・パーツ落ち・折れ",
+      "**内容**：問題のあった爪のみ無料でお直し（デザイン・色の変更は不可）",
+      "**回数**：1施術につき1回限り",
+      "**対象外**：お客様の不注意や故意による破損、爪先への負担、亀裂未処理の爪、二枚爪、施術時にご説明済みの項目",
+    ],
+    links: [{ label: "保障の詳細ページを見る", url: SALON.warranty }],
+    next: [
+      { label: "再来店特典", to: "repeat" },
+      { label: "お直し料金を見る", to: "off" },
+    ],
+  },
+  repeat: {
+    text: ["**再来店特典**", "**3週間以内** の付け替えで **¥500割引** となります。", "爪の伸びが遅い方でも、ベストな状態を保てるのは3週間が限度と考えているためです。"],
+    links: [{ label: "予約サイトへ", url: SALON.reserve }],
+    next: [{ label: "人工爪の注意事項", to: "care" }],
+  },
+  care: {
+    text: ["**人工爪（ジェル・スカルプ）に関する注意事項**"],
+    list: [
+      "施術後は **保湿ケア** をお願いします",
+      "**3週間以内** のお付け替えをおすすめします（当店では3週間周期でのお付け替えを推奨しています）",
+      "浮きや亀裂を放置すると **カビ（グリーンネイル）** が発生する危険があります",
+      "ご自身で切る・削る・剥がすのは **厳禁** です（自爪ダメージの原因）",
+    ],
+    next: [
+      { label: "施術保障の内容", to: "warranty_detail" },
+      { label: "浮いた・取れた場合は？", to: "faq_lift" },
+    ],
+  },
+
+  /* ---------------- FAQ ---------------- */
+  faq: {
+    text: ["よくあるご質問です。気になる質問をお選びください。"],
+    next: [
+      { label: "初めてです。どのメニューがいい？", to: "faq_first" },
+      { label: "オフはマシンで行いますか？", to: "faq_off" },
+      { label: "付け替えオフは無料？", to: "faq_offfree" },
+      { label: "パラジェルは追加料金？", to: "faq_para" },
+      { label: "定額デザインの色は変えられる？", to: "faq_color" },
+      { label: "施術時間はどのくらい？", to: "duration" },
+      { label: "すぐ浮いた・取れた場合は？", to: "faq_lift" },
+      { label: "予約の変更・キャンセルは？", to: "cancel" },
+      { label: "支払い方法は？", to: "payment" },
+      { label: "爪が短い・薄い・傷んでいても大丈夫？", to: "faq_damage" },
+      { label: "長さ出しや亀裂補強はできる？", to: "faq_length" },
+    ],
+    label: "質問を選ぶ",
+  },
+  faq_first: {
+    text: ["初めての方も、どうぞご安心ください。", "当店は定額メニューに特化したサロンです。ほどよくアートやデザインを楽しめる **「スタンダード定額」** が初めてのお客様にはおすすめです。"],
+    next: [
+      { label: "スタンダード定額を詳しく", to: "std" },
+      { label: "初めての方の流れ", to: "first" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_off: {
+    text: ["当店では、ジェルオフに **マシンを使用せず**、ネイルファイルを用いて一本ずつ状態を確認しながら施術しています。", "アセトンも使用しますが、お爪の状態に配慮し、長時間触れないよう短時間の使用に調整しています。"],
+    next: [
+      { label: "オールハンド施術のこだわり", to: "allhand" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_offfree: {
+    text: ["はい、**ソフトジェルのお付け替えオフは料金に含まれて** おります。", "なお、再来店時の他店オフは **¥700**、ハードジェル・スカルプのオフは別途 **¥2,000** を頂戴しております。"],
+    next: [
+      { label: "オフ・オプション料金一覧", to: "off" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_para: {
+    text: ["お付け替えには **パラジェルが追加料金なし** で含まれています。", "自爪への負担が気になる方も、どうぞお気軽にご相談ください。"],
+    next: [
+      { label: "料金に含まれるもの", to: "included" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_color: {
+    text: ["はい、**カラー変更・配置変更が可能** です。", "ご来店の際にこちらからご案内いたしますので、ご安心ください。"],
+    next: [
+      { label: "定額メニューを見る", to: "teigaku" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_lift: {
+    text: ["当店では **施術保障** がございます（施術日を含む7日間）。", "サロンの不備による剥がれ・浮き・石落ち・パーツ落ち・折れは、問題のあった爪を無料でお直しします。まずはお電話または予約サイトからご予約ください。"],
+    links: [{ label: "電話する " + SALON.tel, url: SALON.telHref }],
+    next: [
+      { label: "保障の詳細を見る", to: "warranty_detail" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_damage: {
+    text: ["まずはお爪の状態を確認し、無理のない施術内容をご提案いたします。", "爪の短さや薄さ、傷みが気になる方も、どうぞお気軽にご相談ください。", "爪や皮膚の状態によっては、ジェルの施術を控え、ケアメニューなどをご案内する場合があります。"],
+    next: [
+      { label: "ケアメニューを見る", to: "hand_other" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+  faq_length: {
+    text: ["はい、対応しております。", "アクリルによる **亀裂補修は1本 ¥550**、**長さ出しは1本 ¥880** です。", "必要な本数をご確認のうえ、ご予約時にご記載またはお伝えくださると幸いです。"],
+    links: [{ label: "予約サイトへ", url: SALON.reserve }],
+    next: [
+      { label: "オフ・オプション料金一覧", to: "off" },
+      { label: "他の質問を見る", to: "faq" },
+    ],
+  },
+
+  /* ---------------- サロンについて ---------------- */
+  about: {
+    text: ["「指先を整える時間が、自分を大切にする時間になる。」", "Nail Salon Kanamo についてのご案内です。"],
+    next: [
+      { label: "サロンの特徴", to: "features" },
+      { label: "オールハンド施術のこだわり", to: "allhand" },
+      { label: "公式デザインカタログ", to: "catalog" },
+      { label: "Instagram・口コミ", to: "sns" },
+      { label: "マスコット ぶぅるん♪", to: "mascot" },
+    ],
+  },
+  features: {
+    text: ["**Nail Salon Kanamo の特徴**"],
+    list: [
+      "**女性専用・完全予約制** のプライベートサロン",
+      "**完全個室**。ふかふかの大きなソファで、周りを気にせずくつろげます",
+      "**JNA（日本ネイリスト協会）認定講師** が担当",
+      "**オールハンド施術**（マシン不使用）で自爪にやさしい",
+      "**約450デザイン** の定額メニュー。毎月更新",
+      "京成八幡駅 徒歩1分 / JR本八幡駅 徒歩5分",
+      "お子様は1名まで同伴可能。専用駐車場はなく、近くのコインパーキング（自己負担）をご利用ください",
+    ],
+    next: [
+      { label: "定額メニューを見る", to: "teigaku" },
+      { label: "アクセス", to: "access" },
+    ],
+  },
+  allhand: {
+    text: ["**オールハンド施術（マシン不使用）**", "マシンを使わず、すべて手作業で丁寧にオフするため、不快感なくリラックスしてお過ごしいただけます。自爪へのダメージを防ぐことを大切にしています。", "お客様の爪質に合わせてジェルの硬さと厚みを調整し、爪のしなやかさを活かすことで、浮きにくく美しい状態が長く続きます。"],
+    links: [{ label: "How To（ネイルのお悩み解決）を見る", url: SALON.howto }],
+    next: [
+      { label: "オフはマシンで行いますか？", to: "faq_off" },
+      { label: "サロンの特徴", to: "features" },
+    ],
+  },
+  catalog: {
+    text: ["公式デザインカタログでは、定額メニューの全デザイン（約450種）をご覧いただけます。", "気になるデザインを見つけたら、そのままご予約へどうぞ。"],
+    links: [
+      { label: "公式カタログを開く", url: SALON.catalog },
+      { label: "スタンダード定額のデザイン", url: SALON.std },
+      { label: "スペシャル定額のデザイン", url: SALON.spc },
+      { label: "フット定額のデザイン", url: SALON.foot },
+    ],
+    next: [{ label: "予約方法", to: "reserve_how" }],
+  },
+  sns: {
+    text: ["最新のデザインや空き情報は Instagram でも発信しています。", "口コミもぜひご覧ください。ご来店後の口コミ投稿も大歓迎です。"],
+    links: [
+      { label: "Instagram @nailsalon_kanamo", url: SALON.instagram },
+      { label: "Google口コミを見る", url: SALON.gmap },
+    ],
+    next: [{ label: "サロンについてに戻る", to: "about" }],
+  },
+  mascot: {
+    text: ["**ぶぅるん♪** は Nail Salon Kanamo のマスコットキャラクターです。", "公式カタログでは、職探し編・応募編・面接編など、ぶぅるん♪の4コマ漫画シリーズを連載中。手描きアートの魅力も紹介しています。"],
+    links: [{ label: "ぶぅるん♪のページを見る", url: "https://sites.google.com/view/kanamo-nail/ぶぅるん" }],
+    next: [{ label: "サロンについてに戻る", to: "about" }],
+  },
+  /* ---------------- 入力予測用の追加ノード（公式サイトに記載のない事項は電話案内） ---------------- */
+  parking: {
+    text: ["専用駐車場はございません。お車の場合は **近くのコインパーキング** をご利用ください（駐車料金は **お客様のご負担** となります）。", "京成八幡駅から徒歩1分、JR本八幡駅から徒歩5分ですので、電車でのご来店も便利です。"],
+    links: [{ label: "Googleマップで周辺を見る", url: SALON.gmap }],
+    next: [{ label: "駅からの道順", to: "route" }, { label: "住所・地図", to: "address" }],
+  },
+  men: {
+    text: ["当店は **女性専用** のプライベートサロンです。", "男性のお客様のご利用はお受けしておりません。ケアメニューを含め、すべてのメニューが女性限定となります。"],
+    next: [{ label: "サロンの特徴", to: "features" }],
+  },
+  kids: {
+    text: ["お子様は **1名まで同伴可能** です。", "完全個室のプライベート空間ですので、周りを気にせずお過ごしいただけます。ご予約の際にお子様同伴の旨をお知らせいただけると安心です。"],
+    links: [{ label: "予約サイトへ", url: SALON.reserve }],
+    next: [{ label: "サロンの特徴", to: "features" }, { label: "予約方法", to: "reserve_how" }],
+  },
+  pregnant: {
+    text: ["ご妊娠中・体調に不安がある場合は、無理のない施術内容をご提案いたします。", "ご予約前にお電話でお気軽にご相談ください。"],
+    links: [{ label: "電話で相談する " + SALON.tel, url: SALON.telHref }],
+    next: [{ label: "爪の状態が心配な方へ", to: "faq_damage" }],
+  },
+  late: {
+    text: ["ご予定が変わった場合や遅れそうな場合は、**分かり次第お早めにお電話** ください。", "施術時間はメニューにより異なるため、状況に応じてご案内いたします。"],
+    links: [{ label: "電話する " + SALON.tel, url: SALON.telHref }],
+    next: [{ label: "予約の変更・キャンセル", to: "cancel" }],
+  },
+  bring: {
+    text: ["お持ち込みデザインは **ジェルつけ放題（90分）¥10,800** でご相談いただけます。", "定額メニューは公式カタログのデザインから選ぶ形式ですが、カラー変更・配置変更はご来店時にご案内します。"],
+    links: [{ label: "公式デザインカタログを見る", url: SALON.catalog }],
+    next: [{ label: "ハンドその他メニュー", to: "hand_other" }, { label: "定額デザインの色は変えられる？", to: "faq_color" }],
+  },
+  today: {
+    text: ["当日のご予約は、**予約サイトの空き状況** をご確認ください。", "お急ぎの場合はお電話でもご相談いただけます（施術中は出られない場合があります）。"],
+    links: [{ label: "予約サイトで空きを見る", url: SALON.reserve }, { label: "電話する " + SALON.tel, url: SALON.telHref }],
+    next: [{ label: "営業時間・定休日", to: "hours" }],
+  },
+  lasting: {
+    text: ["当店では **3週間周期** でのお付け替えをおススメしております。", "**3週間以内** の付け替えなら **¥500割引** の再来店特典があります。", "浮きや亀裂を放置するとグリーンネイルの原因になりますので、ご自身で剥がさずにご来店ください。"],
+    next: [{ label: "再来店特典", to: "repeat" }, { label: "人工爪の注意事項", to: "care" }],
+  },
+  green: {
+    text: ["グリーンネイルは、浮いたジェルと爪の隙間に水分がたまり、カビが発生した状態です。", "予防には、**浮きや亀裂を放置しない**・**ご自身で剥がさない**・**3週間以内に付け替える** ことが大切です。", "当店はオールハンドで爪の状態を一本ずつ確認しながら施術しています。気になる方はお気軽にご相談ください。"],
+    links: [{ label: "How To（ネイルのお悩み解決）を見る", url: SALON.howto }],
+    next: [{ label: "人工爪の注意事項", to: "care" }, { label: "爪が傷んでいても大丈夫？", to: "faq_damage" }],
+  },
+  careonly: {
+    text: ["ケアのみのメニューもございます（税込）。"],
+    table: [
+      { name: "ハンドケアセット", price: "¥4,200", note: "甘皮カット・形整え・ツヤ仕上げ（男性不可）" },
+      { name: "フットケアセット", price: "¥4,200", note: "形整え・甘皮カット・ツヤ出し（男性不可）" },
+      { name: "上品な透明ジェル（ハンド / フット）", price: "¥7,000", note: "色なしのクリアジェルで艶やかに" },
+    ],
+    next: [{ label: "オフのみの料金", to: "off" }, { label: "メニュー一覧に戻る", to: "menu" }],
+  },
+  nominate: {
+    text: ["当店はスタッフ1名のプライベートサロンです。すべての施術を **JNA（日本ネイリスト協会）認定講師の近江** が担当しますので、ご指名は不要です。", "完全個室で、周りを気にせずゆっくりお過ごしいただけます。"],
+    next: [{ label: "サロンの特徴", to: "features" }, { label: "オールハンド施術のこだわり", to: "allhand" }],
+  },
+  cash: {
+    text: ["はい、**現金** でお支払いいただけます。", "そのほか **Visa / Mastercard / JCB / UnionPay（銀聯） / PayPay** もご利用いただけます。"],
+    next: [{ label: "お支払い方法", to: "payment" }],
+  },
+  coupon: {
+    text: ["定額メニューの表示料金（¥7,499 / ¥8,499）は **Hot Pepper Beauty の全員向けクーポン料金** です。", "さらに **3週間以内の付け替えで ¥500割引** の再来店特典があります。"],
+    links: [{ label: "予約サイトでクーポンを見る", url: SALON.reserve }],
+    next: [{ label: "定額メニュー", to: "teigaku" }, { label: "再来店特典", to: "repeat" }],
+  },
+  unknown: {
+    text: ["申し訳ありません。ご質問の内容をうまく読み取れませんでした。", "下のメニューからお選びいただくか、お電話でお気軽にお問い合わせください。"],
+    links: [{ label: "電話する " + SALON.tel, url: SALON.telHref }],
+    next: MAIN_MENU,
+    label: "ご用件をお選びください",
+    numbered: true,
+  },
+};
+
+/* =====================================================================
+   INTENTS : 入力予測辞書（keys に含まれる語が入力にあれば to のノードへ）
+   q は候補チップに表示する質問文
+   ===================================================================== */
+const INTENTS = [
+  { q: "予約はどうすればいい？", to: "reserve_how", keys: ["予約方法", "予約したい", "予約の仕方", "予約は", "予約できる", "ネット予約", "ホットペッパー", "hotpepper", "hpb", "空き"] },
+  { q: "当日予約はできる？", to: "today", keys: ["当日", "今日", "今から", "すぐ", "急ぎ", "明日"] },
+  { q: "予約の変更・キャンセルは？", to: "cancel", keys: ["キャンセル", "変更", "日程", "延期", "リスケ", "取り消し"] },
+  { q: "遅刻しそうなときは？", to: "late", keys: ["遅刻", "遅れ", "間に合わ"] },
+  { q: "初めてですが、どのメニューがいい？", to: "faq_first", keys: ["初めて", "はじめて", "初回", "初心者", "おすすめ", "オススメ", "どのメニュー", "迷って"] },
+  { q: "施術時間はどのくらい？", to: "duration", keys: ["時間はどの", "何分", "何時間", "所要", "施術時間", "かかる時間", "どれくらいかか", "どのくらいかか"] },
+  { q: "料金・メニューを知りたい", to: "menu", keys: ["料金", "値段", "価格", "いくら", "金額", "メニュー", "コース", "円"] },
+  { q: "定額メニューについて", to: "teigaku", keys: ["定額", "スタンダード", "スペシャル", "standard", "special"] },
+  { q: "フットネイルはできる？", to: "foot_menu", keys: ["フット", "足", "ペディ", "foot", "フットの", "足の", "フットマグネット", "フットワンカラー", "フットフラッシュ", "フットつけ放題", "フット定額"] },
+  { q: "ワンカラー・フレンチ・マグネットはある？", to: "hand_other", keys: ["ワンカラー", "フレンチ", "マグネット", "フラッシュ", "グラデ", "つけ放題", "付け放題", "クリア", "透明"] },
+  { q: "ケアだけでもできる？", to: "careonly", keys: ["ケアのみ", "ケアだけ", "甘皮", "ケアメニュー", "自爪ケア", "ハンドケア", "フットケア"] },
+  { q: "持ち込みデザインはできる？", to: "bring", keys: ["持ち込み", "持込", "画像", "写真", "インスタで見た", "このデザイン", "好きなデザイン", "オーダー"] },
+  { q: "オフだけでもできる？", to: "off", keys: ["オフのみ", "オフだけ", "オフ料金", "外したい", "取りたい", "落としたい", "スカルプ", "ハードジェル", "他店"] },
+  { q: "オフはマシンで行う？", to: "faq_off", keys: ["マシン", "機械", "削る", "アセトン", "オフの方法", "オフはどう"] },
+  { q: "付け替えオフは無料？", to: "faq_offfree", keys: ["オフ無料", "オフは無料", "オフ代", "付け替え", "つけかえ", "付替"] },
+  { q: "パラジェルは追加料金？", to: "faq_para", keys: ["パラジェル", "パラ", "自爪に優しい", "爪に優しい", "負担"] },
+  { q: "定額デザインの色は変えられる？", to: "faq_color", keys: ["色変更", "色を変え", "カラー変更", "配置", "アレンジ", "色は変え", "カラーを変え"] },
+  { q: "長さ出し・亀裂補強はできる？", to: "faq_length", keys: ["長さ出し", "長さだし", "亀裂", "ひび", "割れ", "折れた", "補強", "補修", "リペア", "スカルプチュア"] },
+  { q: "爪が短い・薄い・傷んでいても大丈夫？", to: "faq_damage", keys: ["短い", "薄い", "傷ん", "弱い", "二枚爪", "深爪", "ボロボロ", "痛んで", "噛み", "自爪が"] },
+  { q: "ジェルはどのくらい持つ？", to: "lasting", keys: ["持ち", "もち", "どのくらい持", "何週間", "浮きやすい", "長持ち", "周期", "頻度"] },
+  { q: "すぐ浮いた・取れた場合は？", to: "faq_lift", keys: ["浮いた", "浮いて", "取れた", "取れて", "剥がれ", "はがれ", "欠けた", "パーツが", "ストーンが"] },
+  { q: "施術保障はある？", to: "warranty_detail", keys: ["保障", "保証", "お直し", "直して", "無料で直"] },
+  { q: "再来店特典・割引はある？", to: "repeat", keys: ["再来", "リピート", "割引", "特典", "安く", "お得", "2回目", "二回目", "次回"] },
+  { q: "クーポンはある？", to: "coupon", keys: ["クーポン", "キャンペーン", "セール", "学割", "初回割"] },
+  { q: "グリーンネイルが心配", to: "green", keys: ["グリーンネイル", "緑", "カビ", "感染"] },
+  { q: "支払い方法は？", to: "payment", keys: ["支払", "決済", "カード", "paypay", "ペイペイ", "クレジット", "visa", "jcb", "電子マネー", "quicpay", "suica", "交通系"] },
+  { q: "現金は使える？", to: "cash", keys: ["現金", "キャッシュ", "お札", "現金払い"] },
+  { q: "場所・住所はどこ？", to: "address", keys: ["住所", "場所", "どこ", "地図", "マップ", "所在地", "市川", "八幡", "本八幡", "メゾン"] },
+  { q: "駅からの行き方は？", to: "route", keys: ["行き方", "道順", "駅から", "徒歩", "アクセス", "迷", "道", "改札", "セブン", "鳥きよ"] },
+  { q: "駐車場はある？", to: "parking", keys: ["駐車", "パーキング", "車で", "駐輪", "自転車", "停め", "止め"] },
+  { q: "営業時間・定休日は？", to: "hours", keys: ["営業", "何時", "定休", "休み", "休日", "開いて", "やって", "土日", "祝日", "夜", "遅く"] },
+  { q: "電話番号は？", to: "tel", keys: ["電話", "tel", "番号", "連絡先", "問い合わせ", "問合せ"] },
+  { q: "男性でも利用できる？", to: "men", keys: ["男性", "男", "メンズ", "彼氏", "夫", "旦那"] },
+  { q: "子供連れでも大丈夫？", to: "kids", keys: ["子供", "子ども", "こども", "子連れ", "ベビーカー", "赤ちゃん", "キッズ", "同伴", "娘", "息子", "お子"] },
+  { q: "妊娠中でも施術できる？", to: "pregnant", keys: ["妊娠", "妊婦", "マタニティ", "授乳", "体調"] },
+  { q: "指名はできる？担当は誰？", to: "nominate", keys: ["指名", "担当", "ネイリスト", "講師", "誰が", "スタッフ", "jna", "資格", "近江", "おうみ", "何人"] },
+  { q: "個室ですか？", to: "features", keys: ["個室", "プライベート", "女性専用", "特徴", "どんなサロン", "雰囲気", "ソファ", "一人", "1人"] },
+  { q: "オールハンド施術とは？", to: "allhand", keys: ["オールハンド", "ハンド施術", "こだわり", "丁寧", "手作業"] },
+  { q: "デザインを見たい", to: "catalog", keys: ["デザイン", "カタログ", "サンプル", "写真を見", "見本", "種類", "何種類"] },
+  { q: "Instagram・口コミは？", to: "sns", keys: ["インスタ", "instagram", "sns", "口コミ", "クチコミ", "レビュー", "評判", "google"] },
+  { q: "ぶぅるん♪って何？", to: "mascot", keys: ["ぶぅるん", "ぶーるん", "ぶうるん", "キャラクター", "マスコット", "漫画", "ぴよまる", "ぶぅらん"] },
+  { q: "料金に含まれるものは？", to: "included", keys: ["含まれ", "込み", "コミコミ", "追加料金", "別料金", "税込"] },
+];
+
+/* =====================================================================
+   チャットエンジン（選択式）
+   ===================================================================== */
+(function () {
+  const panel = document.getElementById("kbPanel");
+  const log = document.getElementById("kbLog");
+  const launcher = document.getElementById("kbLauncher");
+  const btnBack = document.getElementById("kbBack");
+  const btnHome = document.getElementById("kbHome");
+  const btnClose = document.getElementById("kbClose");
+  const btnSize = document.getElementById("kbSize");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DIAG = '<svg class="diag" aria-hidden="true"><use href="#i-diag"/></svg>';
+
+  const form = document.getElementById("kbForm");
+  const input = document.getElementById("kbInput");
+  const send = document.getElementById("kbSend");
+  const sug = document.getElementById("kbSug");
+
+  let history = [];      // ノードID または 動的ノードオブジェクト
+  let busy = false;
+
+  // ---- 入力の正規化（全角→半角、小文字、カタカナ→ひらがな、空白除去） ----
+  const kata2hira = (t) => t.replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
+  const norm = (t) => kata2hira(String(t).normalize("NFKC").toLowerCase()).replace(/[\s、。・！？!?「」()（）]/g, "");
+
+  // ---- 意図判定：一致したキーの文字数合計をスコアにする ----
+  function matchIntents(text) {
+    const t = norm(text);
+    if (!t) return [];
+    return INTENTS.map((it) => {
+      let score = 0;
+      it.keys.forEach((k) => { const nk = norm(k); if (nk && t.includes(nk)) score += nk.length; });
+      return { it, score };
+    }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
+  }
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const md = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const pad = (n) => String(n).padStart(2, "0");
+
+  function scrollBottom() { log.scrollTop = log.scrollHeight; }
+
+  function userBubble(text) {
+    const el = document.createElement("div");
+    el.className = "msg user";
+    el.innerHTML = `<div class="bubble">${esc(text)}</div>`;
+    log.appendChild(el);
+    scrollBottom();
+  }
+
+  function botBubble(node) {
+    const el = document.createElement("div");
+    el.className = "msg bot";
+    let html = "";
+    (node.text || []).forEach((p) => { html += `<p>${md(p)}</p>`; });
+    if (node.list) html += "<ul>" + node.list.map((li) => `<li>${md(li)}</li>`).join("") + "</ul>";
+    if (node.table) {
+      html += '<table class="price-table">' + node.table.map((r) =>
+        `<tr><th>${esc(r.name)}${r.note ? `<small>${esc(r.note)}</small>` : ""}</th><td class="price">${esc(r.price)}</td></tr>`
+      ).join("") + "</table>";
+    }
+    (node.text2 || []).forEach((p) => { html += `<p>${md(p)}</p>`; });
+    el.innerHTML = `<div class="who" aria-hidden="true">K</div><div class="bubble">${html}</div>`;
+    log.appendChild(el);
+    scrollBottom();
+  }
+
+  function typing() {
+    const el = document.createElement("div");
+    el.className = "msg bot";
+    el.innerHTML = `<div class="who" aria-hidden="true">K</div><div class="bubble"><span class="typing"><i></i><i></i><i></i></span></div>`;
+    log.appendChild(el);
+    scrollBottom();
+    return el;
+  }
+
+  function choices(node, nodeId) {
+    const wrap = document.createElement("div");
+    wrap.className = "choices";
+    const items = [];
+
+    (node.links || []).forEach((l) => {
+      const a = document.createElement("a");
+      a.className = "choice cta";
+      a.href = l.url;
+      if (!l.url.startsWith("tel:")) { a.target = "_blank"; a.rel = "noopener"; }
+      a.innerHTML = `<span class="tx">${esc(l.label)}</span>${DIAG}`;
+      items.push(a);
+    });
+
+    const nexts = node.next || [];
+    if (nexts.length) {
+      const lab = document.createElement("div");
+      lab.className = "eyebrow";
+      lab.textContent = node.label ? node.label : (node.links ? "つづけて選ぶ" : "次に知りたいこと");
+      wrap.appendChild(lab);
+    }
+    nexts.forEach((n, k) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice";
+      b.innerHTML = (node.numbered ? `<span class="idx">${pad(k + 1)}</span>` : "") +
+        `<span class="tx">${esc(n.label)}</span>${DIAG}`;
+      b.addEventListener("click", () => {
+        if (busy) return;
+        wrap.classList.add("done");
+        b.classList.add("picked");
+        go(n.to, n.label);
+      });
+      items.push(b);
+    });
+
+    if (nodeId !== "start" && !node.numbered) {
+      const home = document.createElement("button");
+      home.type = "button";
+      home.className = "choice quiet";
+      home.innerHTML = `<span class="tx">最初のメニューに戻る</span>${DIAG}`;
+      home.addEventListener("click", () => {
+        if (busy) return;
+        wrap.classList.add("done");
+        home.classList.add("picked");
+        go("start", "最初のメニューに戻る", true);
+      });
+      items.push(home);
+    }
+
+    items.forEach((i) => wrap.appendChild(i));
+    log.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function render(nodeId) {
+    const node = typeof nodeId === "string" ? KANAMO_DATA[nodeId] : nodeId;
+    if (!node) return;
+    if (typeof nodeId !== "string") nodeId = node.id || "dynamic";
+    busy = true;
+    const t = typing();
+    setTimeout(() => {
+      t.remove();
+      botBubble(node);
+      choices(node, nodeId);
+      busy = false;
+      btnBack.disabled = history.length < 2;
+    }, reduceMotion ? 0 : 350);
+  }
+
+  function go(nodeId, label, reset) {
+    if (label) userBubble(label);
+    if (reset) history = [];
+    history.push(nodeId);
+    render(nodeId);
+  }
+
+  // ---- 自由入力への応答 ----
+  function answer(text) {
+    const hits = matchIntents(text);
+    markAllDone();
+    sug.innerHTML = "";
+    if (!hits.length) { go("unknown", text); return; }
+    const top = hits[0];
+    const rivals = hits.filter((h) => h.score === top.score && h.it.to !== top.it.to);
+    if (!rivals.length) { go(top.it.to, text); return; }
+    // 同点が複数：候補を提示
+    const seen = new Set();
+    const cands = hits.filter((h) => { if (seen.has(h.it.to)) return false; seen.add(h.it.to); return true; })
+      .slice(0, 4).map((h) => ({ label: h.it.q, to: h.it.to }));
+    go({ id: "clarify", text: ["こちらのご質問でしょうか？近いものをお選びください。"], next: cands, label: "近い質問" }, text);
+  }
+
+  function showSuggestions() {
+    const t = input.value.trim();
+    sug.innerHTML = "";
+    if (!t) return;
+    const hits = matchIntents(t);
+    const seen = new Set();
+    const list = hits.filter((h) => { if (seen.has(h.it.to)) return false; seen.add(h.it.to); return true; }).slice(0, 4);
+    if (!list.length) return;
+    const lab = document.createElement("div");
+    lab.className = "eyebrow"; lab.textContent = "もしかして";
+    sug.appendChild(lab);
+    list.forEach((h) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = h.it.q;
+      b.addEventListener("click", () => { if (busy) return; input.value = ""; showSuggestions(); markAllDone(); go(h.it.to, h.it.q); });
+      sug.appendChild(b);
+    });
+  }
+
+  input.addEventListener("input", showSuggestions);
+  // 日本語入力の変換確定Enterでは送信しない（isComposing / keyCode 229 を除外）
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); form.requestSubmit(); }
+  });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const t = input.value.trim();
+    if (!t || busy) return;
+    input.value = "";
+    answer(t);
+  });
+
+  function markAllDone() {
+    log.querySelectorAll(".choices:not(.done)").forEach((c) => c.classList.add("done"));
+  }
+
+  btnBack.addEventListener("click", () => {
+    if (busy || history.length < 2) return;
+    history.pop();
+    markAllDone();
+    userBubble("ひとつ戻る");
+    render(history[history.length - 1]);
+  });
+  btnHome.addEventListener("click", () => {
+    if (busy) return;
+    markAllDone();
+    go("start", "最初のメニューに戻る", true);
+  });
+  btnClose.addEventListener("click", () => { panel.hidden = true; launcher.hidden = false; });
+  launcher.addEventListener("click", () => { launcher.hidden = true; panel.hidden = false; scrollBottom(); });
+  btnSize.addEventListener("click", () => {
+    const large = panel.dataset.size !== "large";
+    panel.dataset.size = large ? "large" : "normal";
+    btnSize.setAttribute("aria-pressed", String(large));
+    btnSize.textContent = large ? "文字 標準" : "文字 大";
+  });
+
+  history = ["start"];
+  render("start");
+})();
+</script>
+
+
+<script>
+document.getElementById("kbClose").addEventListener("click", () => {
+  parent.postMessage({type:"kanamo-chat-close"}, location.origin);
+});
+window.addEventListener("message", (event) => {
+  if(event.origin !== location.origin || event.source !== parent) return;
+  if(event.data?.type === "kanamo-chat-open") {
+    if(document.getElementById("kbPanel").hidden) document.getElementById("kbLauncher").click();
+    document.getElementById("kbClose").focus();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if(event.key === "Escape") document.getElementById("kbClose").click();
+});
+</script>
+</body></html>
+
