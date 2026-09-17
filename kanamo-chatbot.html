@@ -4,19 +4,19 @@
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kanamo ネイル案内チャット</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
 <style>
   /* ---- Nail Salon Kanamo 公式サイトのトークンを継承 ---- */
   :root {
-    --paper: #faf8f5;
-    --white: #fffefd;
-    --ink: #453c3c;
-    --muted: #746663;
-    --line: #dfd5cf;
-    --rose: #8e5f64;
-    --rose-light: #eee0dc;
-    --rose-ink: #fffefd;
-    --shadow: 0 24px 60px rgba(69, 60, 60, .16);
+    --paper: #ffffff;
+    --white: #ffffff;
+    --ink: #333333;
+    --muted: #666666;
+    --line: #d8d8d8;
+    --rose: #505050;
+    --rose-light: #eeeeee;
+    --rose-ink: #ffffff;
+    --shadow: 0 24px 60px rgba(51, 51, 51, .16);
     --serif: "Yu Mincho", "Hiragino Mincho ProN", "Shippori Mincho", serif;
     --english: Georgia, "Times New Roman", "Yu Mincho", serif;
     --fs: 16px;
@@ -221,8 +221,22 @@
   .kb-panel[data-size="large"] { --fs: 18px; }
   .kb-panel[data-size="large"] .choice { font-size: 18px; min-height: 62px; }
   .kb-panel[data-size="large"] .kb-bar button, .kb-panel[data-size="large"] .kb-bar a { font-size: 15px; }
+/* Match the homepage gold-outline action buttons. */
+.kb-launcher,.choice.cta,.kb-bar a.primary,.kb-form button:hover{background:transparent;color:#453f3a;border:1px solid #b39a65}
+.choice.cta .diag{color:inherit}
+.kb-launcher:hover,.choice.cta:hover,.kb-bar a.primary:hover{background:rgba(179,154,101,.08);border-color:#b39a65;filter:none}
+
+/* Soft portrait background behind the conversation. */
+.kb-panel{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url('assets/chat-background-portrait.webp') center/cover no-repeat}
 </style>
-<style>html,body{height:100%;min-height:0;overflow:hidden}.kb-panel{inset:0;width:100%;height:100%;height:100dvh;box-shadow:none}.kb-log{min-height:0;overscroll-behavior:contain}.kb-bar{padding-bottom:calc(14px + env(safe-area-inset-bottom))}.kb-launcher{display:none!important}</style>
+<style>html,body{height:100%;min-height:0;overflow:hidden}.kb-panel{inset:0;width:100%;height:100%;height:100dvh;box-shadow:none}.kb-log{min-height:0;overscroll-behavior:contain}.kb-bar{padding-bottom:calc(14px + env(safe-area-inset-bottom))}.kb-launcher{display:none!important}/* Match the homepage gold-outline action buttons. */
+.kb-launcher,.choice.cta,.kb-bar a.primary,.kb-form button:hover{background:transparent;color:#453f3a;border:1px solid #b39a65}
+.choice.cta .diag{color:inherit}
+.kb-launcher:hover,.choice.cta:hover,.kb-bar a.primary:hover{background:rgba(179,154,101,.08);border-color:#b39a65;filter:none}
+
+/* Soft portrait background behind the conversation. */
+.kb-panel{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url('assets/chat-background-portrait.webp') center/cover no-repeat}
+</style>
 </head><body>
 
 
@@ -866,6 +880,9 @@ const INTENTS = [
 
   let history = [];      // ノードID または 動的ノードオブジェクト
   let busy = false;
+  let savedScrollTop = 0;
+  let savedAnchor = null;
+  let savedAnchorOffset = 0;
 
   // ---- 入力の正規化（全角→半角、小文字、カタカナ→ひらがな、空白除去） ----
   const kata2hira = (t) => t.replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
@@ -910,7 +927,7 @@ const INTENTS = [
     (node.text2 || []).forEach((p) => { html += `<p>${md(p)}</p>`; });
     el.innerHTML = `<div class="who" aria-hidden="true">K</div><div class="bubble">${html}</div>`;
     log.appendChild(el);
-    scrollBottom();
+    return el;
   }
 
   function typing() {
@@ -974,7 +991,6 @@ const INTENTS = [
 
     items.forEach((i) => wrap.appendChild(i));
     log.appendChild(wrap);
-    scrollBottom();
   }
 
   function render(nodeId) {
@@ -985,8 +1001,12 @@ const INTENTS = [
     const t = typing();
     setTimeout(() => {
       t.remove();
-      botBubble(node);
+      const response = botBubble(node);
       choices(node, nodeId);
+      // 回答末尾ではなく、最新の回答の先頭から読める位置に合わせる。
+      const top = log.scrollTop + response.getBoundingClientRect().top
+        - log.getBoundingClientRect().top - parseFloat(getComputedStyle(log).paddingTop);
+      log.scrollTo({ top, behavior: "instant" });
       busy = false;
       btnBack.disabled = history.length < 2;
     }, reduceMotion ? 0 : 350);
@@ -1063,8 +1083,26 @@ const INTENTS = [
     markAllDone();
     go("start", "最初のメニューに戻る", true);
   });
-  btnClose.addEventListener("click", () => { panel.hidden = true; launcher.hidden = false; });
-  launcher.addEventListener("click", () => { launcher.hidden = true; panel.hidden = false; scrollBottom(); });
+  btnClose.addEventListener("click", () => {
+    savedScrollTop = log.scrollTop;
+    const edge = log.getBoundingClientRect().top;
+    savedAnchor = [...log.children].find(el => el.getBoundingClientRect().bottom > edge);
+    savedAnchorOffset = savedAnchor ? savedAnchor.getBoundingClientRect().top - edge : 0;
+    panel.hidden = true;
+    launcher.hidden = false;
+  });
+  launcher.addEventListener("click", () => {
+    launcher.hidden = true;
+    panel.hidden = false;
+    // 再表示時の幅の変化でも、読んでいた要素の位置を保持する。
+    requestAnimationFrame(() => {
+      const top = savedAnchor?.isConnected
+        ? log.scrollTop + savedAnchor.getBoundingClientRect().top
+          - log.getBoundingClientRect().top - savedAnchorOffset
+        : savedScrollTop;
+      log.scrollTo({ top, behavior: "instant" });
+    });
+  });
   btnSize.addEventListener("click", () => {
     const large = panel.dataset.size !== "large";
     panel.dataset.size = large ? "large" : "normal";
@@ -1090,8 +1128,17 @@ window.addEventListener("message", (event) => {
   }
 });
 document.addEventListener("keydown", (event) => {
-  if(event.key === "Escape") document.getElementById("kbClose").click();
+  if(event.key === "Escape") { event.preventDefault(); document.getElementById("kbClose").click(); }
+  if(event.key === "Tab") {
+    const panel = document.getElementById("kbPanel");
+    if(panel.hidden) return;
+    const items = [...panel.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),[tabindex="0"]')].filter(el => el.getClientRects().length);
+    const first = items[0], last = items[items.length - 1];
+    if(event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if(!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
 });
+parent.postMessage({type:"kanamo-chat-ready"}, location.origin);
 </script>
 </body></html>
 
