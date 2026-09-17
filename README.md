@@ -16,6 +16,7 @@ Cloudflareバージョン: `c2575779-1f62-4a90-b7a5-32f244ac1aae`
 旧版で使用した画像ファイルは削除せず残しています。過去のサイトはGitのコミット履歴から復元できます。
 検索向けcanonicalは本番CloudflareのURLを維持しています。
 GitHub Pagesはmainブランチのルートを公開元とするバックアップです。
+404ページのみ、GitHub Pagesのサブディレクトリに合わせてCSSとトップページへのリンクを調整しています。
 CloudflareのHTTP→HTTPSリダイレクト等のWorker固有設定は、この静的サイトには含みません。
 
 復元するときは必要なコミットを取得し、HTML・CSS・JavaScript・画像を既存Cloudflare Workerの静的アセットとして配置します。
