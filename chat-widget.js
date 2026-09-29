@@ -22,7 +22,7 @@
     if (matchMedia('(max-width:560px)').matches) document.body.style.overflow = 'hidden';
     frame.hidden = false;
     launchers.forEach(button => button.setAttribute('aria-expanded', 'true'));
-    if (!frame.getAttribute('src')) frame.src = 'kanamo-chatbot.html?v=20260917-3';
+    if (!frame.getAttribute('src')) frame.src = 'kanamo-chatbot.html?v=20260922-1';
     else notifyOpen();
   }));
   frame.addEventListener('load', notifyOpen);
