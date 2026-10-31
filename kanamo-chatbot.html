@@ -274,7 +274,7 @@
   <nav class="kb-bar" aria-label="操作">
     <button type="button" id="kbBack" disabled><span class="arr">←</span>戻る</button>
     <button type="button" id="kbHome">最初へ</button>
-    <a class="primary" id="kbReserve" href="https://beauty.hotpepper.jp/kr/slnH000801816/coupon/" target="_blank" rel="noopener">ご予約 <svg class="diag"><use href="#i-diag"/></svg></a>
+    <a class="primary" id="kbReserve" href="https://beauty.hotpepper.jp/kr/slnH000801816/coupon/" target="_blank" rel="noopener">カナモの予約 <svg class="diag"><use href="#i-diag"/></svg></a>
   </nav>
 
 </section>
@@ -712,7 +712,7 @@ const KANAMO_DATA = {
     ],
   },
   faq_color: {
-    text: ["定額デザインは、**カラー変更・配置変更が可能** です。", "ご来店の際にこちらからご案内いたしますので、ご安心ください。"],
+    text: ["定額デザインは、**カラー変更・配置変更が可能** です。", "ご希望の色や組み合わせは、ご来店時にご相談ください。"],
     next: [
       { label: "定額メニューを見る", to: "teigaku" },
       { label: "他の質問を見る", to: "faq" },
@@ -752,6 +752,7 @@ const KANAMO_DATA = {
       { label: "定額デザイン一覧", to: "catalog" },
       { label: "Instagram・口コミ", to: "sns" },
       { label: "マスコット ぶぅるん♪", to: "mascot" },
+      { label: "サパデコポと仲間のサロン", to: "friends" },
     ],
   },
   features: {
@@ -801,6 +802,174 @@ const KANAMO_DATA = {
       { label: "グリーンネイルが心配", to: "green" },
       { label: "サロンについてに戻る", to: "about" },
     ],
+  },
+  design_save: {
+  "text": [
+    "**カナモで気になるデザインが見つかったら**",
+    "気になるデザインは、スクリーンショットで保存しておくと、ご来店時のご相談がスムーズです。掲載番号は更新で変わることがあります。"
+  ],
+  "next": [
+    {
+      "label": "カナモの定額デザインを見る",
+      "to": "design_search"
+    }
+  ]
+},
+  design_missing: {
+  "text": [
+    "**カナモでご希望のデザインが見つからない場合**",
+    "掲載写真にないデザインをご希望の場合は、持ち込みデザインの案内をご確認ください。定額メニューで対応できるとは限らないため、内容に合うメニューをご相談ください。"
+  ],
+  "next": [
+    {
+      "label": "カナモの持ち込みデザインについて",
+      "to": "bring"
+    },
+    {
+      "label": "カナモの定額デザインを見る",
+      "to": "design_search"
+    }
+  ]
+},
+  friends: {
+  "text": [
+    "**サパデコポと仲間のサロン**",
+    "サパデコポでつながった仲間のサロンをご紹介します。くぬぎ山の「Lian（リアン）」、五香の「LALA NAILS（ララネイルズ）」について、こちらからご覧いただけます。",
+    "以下はカナモとは別のサロンのご案内です。ご予約・お問い合わせは各サロンへ直接お願いいたします。"
+  ],
+  "next": [
+    {
+      "label": "サパデコポについて",
+      "to": "sapadecopo"
+    },
+    {
+      "label": "リアン｜くぬぎ山",
+      "to": "lian"
+    },
+    {
+      "label": "ララネイルズ｜五香",
+      "to": "lala"
+    },
+    {
+      "label": "カナモの案内に戻る",
+      "to": "start"
+    }
+  ]
+},
+  sapadecopo: {
+  "text": [
+    "**本八幡のサパデコポについて**",
+    "本八幡のネイルサロン「sapa de copo（サパデコポ）」は、現在閉店しております。長年ご愛顧いただき、ありがとうございました。",
+    "サパデコポのホームページでは、以前勤務していたスタッフのお店をご紹介しています。",
+    "カナモとは別のサロンについてのご案内です。"
+  ],
+  "links": [
+    {
+      "label": "サパデコポのホームページを見る",
+      "url": "https://www.sapadecopo.com/"
+    }
+  ],
+  "next": [
+    {
+      "label": "仲間のサロン一覧",
+      "to": "friends"
+    },
+    {
+      "label": "カナモの案内に戻る",
+      "to": "start"
+    }
+  ]
+},
+  lian: {
+  "text": [
+    "**Lian（リアン）｜くぬぎ山**",
+    "カナモとは別のサロンのご案内です。",
+    "くぬぎ山駅から徒歩2分のネイルサロンです。",
+    "所在地：千葉県鎌ケ谷市くぬぎ山4丁目3-1-207",
+    "店舗情報・ご予約は下のリンクをご確認ください。ご予約・お問い合わせはリアンへ直接お願いいたします。"
+  ],
+  "links": [
+    {
+      "label": "リアンの店舗情報・予約ページを見る",
+      "url": "https://beauty.hotpepper.jp/kr/slnH000810341/"
+    }
+  ],
+  "next": [
+    {
+      "label": "仲間のサロン一覧",
+      "to": "friends"
+    },
+    {
+      "label": "カナモの案内に戻る",
+      "to": "start"
+    }
+  ]
+},
+  lala: {
+  "text": [
+    "**LALA NAILS（ララネイルズ）｜五香**",
+    "カナモとは別のサロンのご案内です。",
+    "五香駅から徒歩2分のネイルサロンです。",
+    "所在地：千葉県松戸市金ケ作421-5 ファミール東洋201号室",
+    "店舗情報・ご予約は下のリンクをご確認ください。ご予約・お問い合わせはララネイルズへ直接お願いいたします。"
+  ],
+  "links": [
+    {
+      "label": "ララネイルズの店舗情報・予約ページを見る",
+      "url": "https://beauty.hotpepper.jp/kr/slnH000808124/"
+    }
+  ],
+  "next": [
+    {
+      "label": "仲間のサロン一覧",
+      "to": "friends"
+    },
+    {
+      "label": "カナモの案内に戻る",
+      "to": "start"
+    }
+  ]
+},
+  salon_scope: {
+  "text": [
+    "**どちらのサロンについてのご質問ですか？**",
+    "カナモの案内、またはご紹介したサロンの店舗情報をお選びください。他のサロンの料金・空き状況などは、各店のページでご確認ください。"
+  ],
+  "next": [
+    {
+      "label": "カナモの案内に戻る",
+      "to": "start"
+    },
+    {
+      "label": "カナモの料金・メニュー",
+      "to": "menu"
+    },
+    {
+      "label": "カナモの予約方法",
+      "to": "reserve_how"
+    },
+    {
+      "label": "カナモのアクセス",
+      "to": "access"
+    },
+    {
+      "label": "リアンの店舗紹介",
+      "to": "lian"
+    },
+    {
+      "label": "ララネイルズの店舗紹介",
+      "to": "lala"
+    }
+  ]
+},
+  design_search: {
+    text: ["**カナモの定額デザインをお探しですね。**", "季節のネイルや花柄・アートなど、掲載中のデザイン写真はカナモの定額ページでご覧いただけます。気になるデザインを見つけて、ご来店時にご相談ください。", "※掲載デザインは入れ替わることがあります。ご希望の柄が現在掲載されているかは、各ページでご確認ください。"],
+    links: [
+      { label: "カナモのスタンダード定額を見る", url: SALON.std },
+      { label: "カナモのスペシャル定額を見る", url: SALON.spc },
+      { label: "カナモのフット定額を見る", url: SALON.foot },
+    ],
+    next: [{ label: "気に入ったデザインを伝えたい", to: "design_save" }, { label: "色違い・配置変更について", to: "faq_color" }, { label: "探している柄が見つからない", to: "design_missing" }, { label: "カナモの料金・メニュー", to: "menu" }],
   },
   catalog: {
     text: ["定額デザイン一覧では、定額メニューの全デザイン（約450種）をご覧いただけます。", "気になるデザインを見つけたら、そのままご予約へどうぞ。"],
@@ -911,6 +1080,18 @@ const KANAMO_DATA = {
    q は候補チップに表示する質問文
    ===================================================================== */
 const INTENTS = [
+  {"q": "気になるデザインの保存・伝え方", "to": "design_save", "keys": ["スクリーンショット", "スクショ", "保存したい", "保存方法", "気に入ったデザインを伝えたい", "番号を覚え", "デザイン番号"]},
+  {"q": "カナモで探している柄が見つからない", "to": "design_missing", "keys": ["柄が見つからない", "デザインが見つからない", "この画像と同じ", "この写真と同じ"]},
+  {"q": "カナモのデザイン写真を見たい", "to": "design_search", "keys": ["写真はどこ", "画像を見たい", "画像が見たい", "デザイン写真"]},
+  {"q": "サパデコポについて", "to": "sapadecopo", "keys": ["サパデコポ", "サパデコ", "sapadecopo", "sapa de copo"]},
+  {"q": "リアン｜くぬぎ山", "to": "lian", "keys": ["リアン", "lian", "くぬぎ山", "くぬぎやま"]},
+  {"q": "ララネイルズ｜五香", "to": "lala", "keys": ["ララネイルズ", "ララネイル", "lala nails", "lalanails", "五香", "ごこう"]},
+  {"q": "サパデコポの仲間のサロン", "to": "friends", "keys": ["仲間のサロン", "他のサロン", "元スタッフのお店", "サパデコポの仲間", "系列店", "姉妹店"]},
+  {"q": "定額デザインの色違いについて", "to": "faq_color", "keys": ["色違い", "ピンクにできる", "ピンクにしたい"]},
+  {"q": "サロンを選ぶ", "to": "salon_scope", "keys": []},
+
+  { q: "カナモの季節・花柄・アートのデザインを見たい", to: "design_search", keys: ["クリスマス", "ハロウィン", "お正月", "正月", "年末年始", "成人式", "バレンタイン", "卒業式", "卒園式", "入学式", "入園式", "桜", "さくら", "梅雨", "七夕", "夏祭り", "春ネイル", "夏ネイル", "秋ネイル", "冬ネイル", "春のネイル", "夏のネイル", "秋のネイル", "冬のネイル", "フラワー", "フラワーアート", "花柄", "お花", "花ネイル", "花のネイル", "押し花", "ボタニカル", "チェック", "ツイード", "ドット", "水玉", "ストライプ", "レース", "キルティング", "レオパード", "ヒョウ柄", "豹柄", "アニマル", "ニュアンス", "マーブル", "大理石", "べっ甲", "べっこう", "シェル", "ハート", "リボン", "星柄", "スター", "パール", "ビジュー", "ストーン", "ラメ", "キラキラ", "ミラー", "オーロラ", "雪の結晶", "雪だるま", "サンタ", "トナカイ", "ツリー", "かぼちゃ", "和柄", "シンプル", "上品", "控えめ", "きれいめ", "大人かわいい", "大人可愛い", "華やか", "オフィス", "ブライダル", "ウェディング", "ウエディング", "結婚式", "お呼ばれ", "派手すぎない", "仕事向け", "ピンク", "ボルドー", "ネイビー", "ゴールド", "シルバー", "ベージュ", "赤ネイル", "赤いネイル", "赤のネイル", "青ネイル", "青いネイル", "青のネイル", "緑ネイル", "緑のネイル", "緑色のネイル", "グリーンのネイル"] },
+
   { q: "予約が空いていない・取れない", to: "no_availability", keys: ["予約が空いてない", "予約があいてない", "空いてない", "あいてない", "空いていない", "あいていない", "予約が取れない", "予約がとれない", "取れない", "とれない", "空きがない", "空きがありません", "満席"] },
   { q: "予約はどうすればいい？", to: "reserve_how", keys: ["予約方法", "予約したい", "予約の仕方", "予約は", "予約できる", "ネット予約", "ホットペッパー", "hotpepper", "hpb", "空き"] },
   { q: "当日予約はできる？", to: "today", keys: ["当日予約", "当日", "今日", "今から", "すぐ", "急ぎ", "明日"] },
@@ -995,14 +1176,64 @@ const INTENTS = [
   const norm = (t) => kata2hira(String(t).normalize("NFKC").toLowerCase()).replace(/[\s、。・！？!?「」()（）]/g, "");
 
   // ---- 意図判定：一致したキーの文字数合計をスコアにする ----
-  function matchIntents(text) {
+  function matchIntents(text, context = null) {
     const t = norm(text);
     if (!t) return [];
-    return INTENTS.map((it) => {
+    let hits = INTENTS.map((it) => {
       let score = 0;
       it.keys.forEach((k) => { const nk = norm(k); if (nk && t.includes(nk)) score += nk.length; });
       return { it, score };
     }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
+    const select = to => [{it: INTENTS.find(it => it.to === to), score: 1000}];
+    const explicitKanamo = /かなも|kanamo/.test(t);
+    if (explicitKanamo) hits = hits.filter(h => !["friends","lian","lala","sapadecopo","salon_scope"].includes(h.it.to));
+    const named = [
+      [/りあん|lian|くぬぎ山|くぬぎやま/, "lian"],
+      [/ららねいる|lalanails|五香|ごこう/, "lala"],
+    ].filter(([pattern]) => pattern.test(t));
+    // 他店名があっても詳細回答は作らず、店舗紹介だけに案内する。
+    if (!explicitKanamo && named.length) return select(named.length > 1 ? "friends" : named[0][1]);
+    if (!explicitKanamo && /仲間のさろん|他のさろん|元すたっふのお店|さぱでこぽの仲間|系列店|姉妹店/.test(t)) return select("friends");
+    if (!explicitKanamo && /さぱでこ|sapadecopo/.test(t)) return select("sapadecopo");
+    if (/すくりーんしょっと|すくしょ|保存したい|保存方法|気に入ったでざいんを伝えたい|番号を覚え|でざいん番号/.test(t)) return select("design_save");
+    if (/柄が見つからない|でざいんが見つからない|この画像と同じ|この写真と同じ/.test(t)) return select("design_missing");
+    if (/色違い|ぴんくにできる|ぴんくにしたい/.test(t)) return select("faq_color");
+    if (/写真はどこ|画像を見たい|画像が見たい|でざいん写真/.test(t)) return select("design_search");
+    const design = hits.find(h => h.it.to === "design_search");
+    // 店舗紹介直後の曖昧な用件だけ確認。デザイン語はカナモを案内する。
+    if (!explicitKanamo && !design && ["friends","lian","lala","sapadecopo","salon_scope"].includes(context)
+        && /料金|いくら|値段|予約|営業時間|あくせす|場所|住所/.test(t)) return select("salon_scope");
+    if (/^(かなもの|kanamoの)?予約(したい|は)?$/.test(t)) return select("reserve_how");
+
+    if (!design) return hits;
+    // デザイン語が含まれても、具体的な用件・症状・既存メニューを優先する。
+    const routes = [
+      ["cancel", /きゃんせる|取り消し|日程|延期|りすけ/],
+      ["menu_change", /めにゅー変更|めにゅーを変更|こーす変更|こーすを変更/],
+      ["green", /ぐりーんねいる|かび|感染|爪.*緑|緑.*(変色|心配)/],
+      ["faq_lift", /取れ|とれ|剥が|はが|浮い|欠け/],
+      ["faq_length", /亀裂|ひび|割れ|折れ|補修|補強|長さ出し|長さだし/],
+      ["warranty_detail", /保証|保障|お直し|直して/],
+      ["bring", /持ち込|持込|おーだー|いんすたで見た/],
+      ["faq_color", /色変更|色替え|色変え|色を変え|色を替え|からー変更|配置/],
+      ["menu", /料金|値段|価格|いくら|金額/],
+      ["reserve_how", /予約/],
+    ];
+    for (const [to, pattern] of routes) {
+      if (pattern.test(t)) {
+        const hit = hits.find(h => h.it.to === to);
+        const it = hit?.it || INTENTS.find(it => it.to === to);
+        if (it) return [{ it, score: 1000 }];
+      }
+    }
+    // 単独メニュー名は既存の料金案内を維持（例：ラメグラデ、フットマグネット）。
+    if (/わんからー|ふれんち|ぐらで|まぐねっと|ふらっしゅ/.test(t)) {
+      const to = /ふっと|足|ぺでぃ/.test(t) ? "foot_menu" : "hand_other";
+      const it = INTENTS.find(it => it.to === to);
+      return [{ it, score: 1000 }];
+    }
+    // 色の「緑」を病名、画像を見る質問を持ち込み相談として扱わない。
+    return [design];
   }
 
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -1127,7 +1358,7 @@ const INTENTS = [
 
   // ---- 自由入力への応答 ----
   function answer(text) {
-    const hits = matchIntents(text);
+    const hits = matchIntents(text, history[history.length - 1]);
     markAllDone();
     sug.innerHTML = "";
     if (!hits.length) { go("unknown", text); return; }
@@ -1145,7 +1376,7 @@ const INTENTS = [
     const t = input.value.trim();
     sug.innerHTML = "";
     if (!t) return;
-    const hits = matchIntents(t);
+    const hits = matchIntents(t, history[history.length - 1]);
     const seen = new Set();
     const list = hits.filter((h) => { if (seen.has(h.it.to)) return false; seen.add(h.it.to); return true; }).slice(0, 4);
     if (!list.length) return;
