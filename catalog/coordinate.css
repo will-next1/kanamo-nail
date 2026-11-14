@@ -1,0 +1,48 @@
+/* Nail Salon Kanamo ― 「服と予定でネイルを選ぶ」（デザイン3ページ共通）
+   色・書体・余白は catalog.css / styles.css の決まりに合わせている。 */
+.catalog-page .coordinate{margin:26px max(5.7vw,calc((100vw - var(--max))/2)) 0}
+.catalog-page .coordinate[hidden],.catalog-page .coordinate-panel[hidden]{display:none}
+.catalog-page .coordinate-open{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;max-width:420px;min-height:56px;padding:14px 22px;border:1px solid var(--button-border);border-radius:2px;background:#ffffff;font-size:13px;letter-spacing:.06em;text-align:left}
+.catalog-page .coordinate-open:hover{background:var(--button-hover)}
+.catalog-page .coordinate-open>span{font-size:18px;line-height:1}
+.catalog-page .coordinate-open[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:#ffffff}
+
+.catalog-page .coordinate-panel{margin-top:14px;padding:22px 26px 26px;border:1px solid var(--line);background:#ffffff}
+.catalog-page .coordinate-lead{font-size:13px;line-height:1.9}
+.catalog-page .coordinate-group{margin-top:20px}
+.catalog-page .coordinate-group-title{font-size:12px;font-weight:600;letter-spacing:.06em}
+.catalog-page .coordinate-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.catalog-page .coordinate-option{min-height:44px;padding:8px 16px;border:1px solid #999999;border-radius:2px;background:#ffffff;font-size:13px;line-height:1.5}
+.catalog-page .coordinate-option:hover{background:var(--button-hover)}
+.catalog-page .coordinate-option[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#ffffff}
+.catalog-page .coordinate-open:focus-visible,.catalog-page .coordinate-option:focus-visible,.catalog-page .coordinate-link:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+
+.catalog-page .coordinate-result{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.catalog-page .coordinate-result-title{font-family:var(--serif);font-size:16px;letter-spacing:.06em;line-height:1.8}
+.catalog-page .coordinate-status{font-size:13px;line-height:1.9;color:var(--muted)}
+.catalog-page .coordinate-result-title+.coordinate-status{margin-top:6px}
+.catalog-page .coordinate-cards{display:grid;grid-template-columns:1fr;gap:22px;margin:16px 0 0;padding:0;list-style:none}
+.catalog-page .coordinate-card{min-width:0}
+.catalog-page .coordinate-link{display:block}
+.catalog-page .coordinate-photo{display:block;position:relative;border:1px solid var(--line);background:#f7f7f7}
+.catalog-page .coordinate-photo img{width:100%;height:auto}
+.catalog-page .coordinate-no{position:absolute;top:6px;left:6px;padding:2px 6px;font-family:var(--english);font-size:11px;line-height:1.3;letter-spacing:.04em;color:#666666;background:rgba(255,255,255,.9);border:1px solid #d8d8d8;border-radius:2px}
+.catalog-page .coordinate-which{display:block;margin-top:10px;font-size:12px;font-weight:600;line-height:1.7;letter-spacing:.03em}
+.catalog-page .coordinate-reason{display:block;margin-top:10px;font-size:13px;line-height:1.85}
+.catalog-page .coordinate-which+.coordinate-reason{margin-top:4px}
+.catalog-page .coordinate-jump{display:inline-block;margin-top:6px;padding-bottom:2px;border-bottom:1px solid #aaaaaa;font-size:12px;letter-spacing:.04em;color:var(--muted)}
+.catalog-page .coordinate-link:hover .coordinate-jump{color:var(--ink)}
+.catalog-page .coordinate-note{margin-top:18px;font-size:11px;line-height:1.9;color:var(--muted)}
+
+/* おすすめから移動してきたデザインを、一覧の中で分かるようにする */
+.catalog-page .catalog-item.is-picked .catalog-figure{outline:2px solid var(--ink);outline-offset:6px}
+.catalog-page .catalog-item.is-picked:focus{outline:none}
+
+@media(min-width:768px){
+  .catalog-page .coordinate-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+}
+@media(max-width:559px){
+  .catalog-page .coordinate-open{max-width:none}
+  .catalog-page .coordinate-panel{padding:18px 16px 22px}
+  .catalog-page .coordinate-option{padding:8px 12px}
+}

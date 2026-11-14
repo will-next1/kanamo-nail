@@ -71,10 +71,10 @@
   .catalog-page .catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-/* ---------- 灰色背景の欄は、トップページと同じ周期で薄い黄色へ（2026-09-22 指示） ---------- */
-.catalog-page .catalog-facts,.catalog-page .menu-legend,.catalog-page .menu-quote,.catalog-page .menu-footnotes{animation:catalog-panel-yellow 12s ease-in-out infinite}
-@keyframes catalog-panel-yellow{0%,25%,100%{background-color:#f7f7f7}40%,50%{background-color:#ffffff}65%,85%{background-color:#fbfaee}}
-@media(prefers-reduced-motion:reduce){.catalog-page .catalog-facts,.catalog-page .menu-legend,.catalog-page .menu-quote,.catalog-page .menu-footnotes{animation:none;background-color:#fbfaee}}
+/* ---------- 案内枠の背景は、白と薄いグレーだけで12秒周期の循環 ---------- */
+.catalog-page .catalog-facts,.catalog-page .menu-legend,.catalog-page .menu-quote,.catalog-page .menu-footnotes{animation:catalog-panel-neutral 12s ease-in-out infinite}
+@keyframes catalog-panel-neutral{0%,100%{background-color:#ffffff}45%,55%{background-color:#f2f2f2}}
+@media(prefers-reduced-motion:reduce){.catalog-page .catalog-facts,.catalog-page .menu-legend,.catalog-page .menu-quote,.catalog-page .menu-footnotes{animation:none;background-color:#f2f2f2}}
 
 /* ---------- 予約導線 ---------- */
 .catalog-page .catalog-booking{margin-top:64px}
@@ -110,8 +110,8 @@
 .catalog-page .prose-section:first-child{margin-top:0}
 .catalog-page .prose-section>h2{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:.08em;line-height:1.7;padding-bottom:12px;border-bottom:1px solid var(--line)}
 .catalog-page .prose-section>h3{font-size:13px;letter-spacing:.06em;color:var(--muted);margin-top:20px}
-.catalog-page .prose-highlight{margin-top:18px;padding:18px 20px;background:#f7f7f7;border:1px solid #b39a65;font-size:14px;line-height:2;animation:catalog-panel-yellow 12s ease-in-out infinite}
-@media(prefers-reduced-motion:reduce){.catalog-page .prose-highlight{animation:none;background-color:#fbfaee}}
+.catalog-page .prose-highlight{margin-top:18px;padding:18px 20px;background:#f7f7f7;border:1px solid #b39a65;font-size:14px;line-height:2;animation:catalog-panel-neutral 12s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.catalog-page .prose-highlight{animation:none;background-color:#f2f2f2}}
 .catalog-page .prose-qa{margin-top:18px;border-left:2px solid var(--line);padding-left:16px}
 .catalog-page .prose-qa dt{font-size:13px;line-height:2;font-weight:500}
 .catalog-page .prose-qa dd{margin:6px 0 0;font-size:13px;line-height:2.1;color:#444444}

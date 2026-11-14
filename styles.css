@@ -244,3 +244,60 @@ main .button,main .button:hover{border-color:var(--button-border);border-radius:
 @media(prefers-reduced-motion:reduce){
   .footer::before{animation:none;opacity:1}
 }
+
+/* Philosophy: crossfade only the right backdrop from flowers to white snowflakes. */
+.concept::after{
+  content:"";position:absolute;inset:0 0 0 50%;z-index:-1;pointer-events:none;
+  background:#fff url('assets/concept-snow-white-20261103-1600.webp') right center/cover no-repeat;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 18%);
+  mask-image:linear-gradient(to right,transparent,#000 18%);
+  opacity:0;animation:concept-snow-fade 12s ease-in-out infinite;
+}
+@keyframes concept-snow-fade{0%,25%,100%{opacity:0}45%,80%{opacity:1}}
+@media(max-width:760px){
+  .concept::after{content:none}
+  .concept-text::after{
+    content:"";position:absolute;inset:0 -25px -66px;z-index:-1;pointer-events:none;
+    background:#fff url('assets/concept-snow-white-20261103-800.webp') right center/cover no-repeat;
+    opacity:0;animation:concept-snow-fade 12s ease-in-out infinite;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .concept::after,.concept-text::after{animation:none;opacity:1}
+}
+
+/* Neutral animated backdrops: retain the flower imagery, remove its yellow tint. */
+.reservation,.reservation::before,.footer{
+  background-color:#f2f2f2;
+  background-blend-mode:normal,luminosity;
+}
+
+/* Booking: yellow flowers gently crossfade to white snowflakes. */
+.reservation{
+  background-image:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url('assets/tokimeki-white-20260917-1920.webp');
+  background-blend-mode:normal,normal;
+}
+.reservation::before{
+  background:#fff url('assets/concept-snow-white-20261103-1600.webp') center/cover no-repeat;
+  background-blend-mode:normal;
+  opacity:0;animation:reservation-snow-fade 12s ease-in-out infinite;
+}
+@keyframes reservation-snow-fade{0%,25%,100%{opacity:0}45%,80%{opacity:1}}
+@media(max-width:760px){
+  .reservation{
+    background-image:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url('assets/tokimeki-white-20260917-960.webp');
+    background-position:center,15% center;
+  }
+  .reservation::before{background-image:url('assets/concept-snow-white-20261103-800.webp');background-position:right center}
+}
+@media(prefers-reduced-motion:reduce){.reservation::before{animation:none;opacity:1}}
+
+/* Preserve the mobile snow image proportions; fade its lower edge into white. */
+@media(max-width:760px){
+  .hero-light{overflow:hidden}
+  .hero-light::before,.hero-light::after{content:"";position:absolute;pointer-events:none;opacity:0;animation:hero-mobile-snow-fade 12s ease-in-out infinite}
+  .hero-light::before{inset:0;background:#fff}
+  .hero-light::after{inset:0 0 auto;aspect-ratio:2/3;background:url('assets/hero-mobile-snow-natural-20261103.webp') center/contain no-repeat;-webkit-mask-image:linear-gradient(to bottom,#000 88%,transparent);mask-image:linear-gradient(to bottom,#000 88%,transparent)}
+}
+@keyframes hero-mobile-snow-fade{0%,25%,100%{opacity:0}45%,80%{opacity:1}}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){.hero-light::before,.hero-light::after{animation:none;opacity:1}}
